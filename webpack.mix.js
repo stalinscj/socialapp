@@ -14,3 +14,20 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
+
+mix.browserSync({
+    host: '192.168.10.10',
+    proxy: 'http://laravel-test.test',
+    open: false,
+    files: [
+        'app/**/*.php',
+        'resources/views/**/*.php',
+        'packages/mixdinternet/frontend/src/**/*.php',
+        'public/js/**/*.js',
+        'public/css/**/*.css'
+    ],
+    watchOptions: {
+        usePolling: true,
+        interval: 1000
+    }
+});
