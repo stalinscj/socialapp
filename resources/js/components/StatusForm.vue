@@ -8,7 +8,7 @@
                 <button class="btn btn-primary" id="create-status">Publicar</button>
             </div>
         </form>
-        <div v-for="status in statuses" v-bind:key="status.body" v-text="status.body"></div>
+        <div v-for="status in statuses" :key="status.body" v-text="status.body"></div>
     </div>
 </template>
 

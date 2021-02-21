@@ -8,6 +8,18 @@ use App\Http\Requests\StatusRequest;
 class StatusController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+      $statuses = Status::latest()->paginate();
+
+      return $statuses;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StatusRequest  $request
