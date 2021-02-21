@@ -14,7 +14,7 @@ class StatusRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'body' => 'required|min:5'
+            'body' => 'required|min:5|max:1000'
         ];
 
         return $rules;
