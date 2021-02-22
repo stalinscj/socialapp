@@ -39,35 +39,4 @@ class CanLikeStatusesTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function a_status_can_be_liked()
-    {
-        $user = $this->signIn();
-        $status = Status::factory()->create();
-
-        $status->like($user);
-        
-        $this->assertEquals(1, $status->likes->count());
-    }
-
-    /**
-     * @test
-     */
-    public function a_status_can_be_liked_once()
-    {
-        $user = $this->signIn();
-        $status = Status::factory()->create();
-
-        $status->like($user);
-        
-        $this->assertEquals(1, $status->likes->count());
-        
-        $status->like($user);
-        
-        $this->assertEquals(1, $status->fresh()->likes->count());
-    }
-
-
 }

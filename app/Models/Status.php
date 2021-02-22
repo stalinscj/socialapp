@@ -53,4 +53,17 @@ class Status extends Model
 
         return $this;
     }
+
+    /**
+     * Check if the post is liked by the user
+     *
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public function isLiked($user)
+    {
+        return $user 
+            ? $this->likes()->where('user_id', $user->id)->exists()
+            : false;
+    }
 }

@@ -16,14 +16,14 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                body: ''
-            }
-        },
-        methods: {
-            submit() {
+export default {
+    data() {
+        return {
+            body: ''
+        }
+    },
+    methods: {
+        submit() {
             axios.post('/statuses', {body: this.body})
                 .then(response => {
                     EventBus.$emit('status-created', response.data.data)
@@ -32,9 +32,9 @@
                 .catch(err => { 
                     console.log(err.response.data)
                 })
-            }
         }
     }
+}
 </script>
 
 <style scoped>

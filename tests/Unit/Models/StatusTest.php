@@ -33,4 +33,49 @@ class StatusTest extends TestCase
 
         $this->assertInstanceOf(Like::class, $status->likes->first());
     }
+
+    /**
+     * @test
+     */
+    public function a_status_can_be_liked()
+    {
+        $user = $this->signIn();
+        $status = Status::factory()->create();
+
+        $status->like($user);
+        
+        $this->assertEquals(1, $status->likes->count());
+    }
+
+    /**
+     * @test
+     */
+    public function a_status_can_be_liked_once()
+    {
+        $user = $this->signIn();
+        $status = Status::factory()->create();
+
+        $status->like($user);
+        
+        $this->assertEquals(1, $status->likes->count());
+        
+        $status->like($user);
+        
+        $this->assertEquals(1, $status->fresh()->likes->count());
+    }
+
+    /**
+     * @test
+     */
+    public function a_status_knows_if_has_been_liked()
+    {
+        $user = $this->signIn();
+        $status = Status::factory()->create();
+
+        $this->assertFalse($status->isLiked($user));
+        
+        $status->like($user);
+
+        $this->assertTrue($status->isLiked($user));
+    }
 }
