@@ -1858,6 +1858,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1936,8 +1940,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mixins/auth */ "./resources/js/mixins/auth.js");
+/* harmony import */ var _mixins_auth__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_mixins_auth__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -1959,6 +1967,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 window.EventBus = new Vue();
 Vue.component('status-form', __webpack_require__(/*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue").default);
 Vue.component('statuses-list', __webpack_require__(/*! ./components/StatusesList.vue */ "./resources/js/components/StatusesList.vue").default);
+
+Vue.mixin((_mixins_auth__WEBPACK_IMPORTED_MODULE_0___default()));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -2012,6 +2022,29 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/mixins/auth.js":
+/*!*************************************!*\
+  !*** ./resources/js/mixins/auth.js ***!
+  \*************************************/
+/***/ ((module) => {
+
+var user = document.head.querySelector('meta[name="user"]');
+module.exports = {
+  computed: {
+    currentUser: function currentUser() {
+      return JSON.parse(user.content);
+    },
+    isAuthenticated: function isAuthenticated() {
+      return user.content ? true : false;
+    },
+    guest: function guest() {
+      return !this.isAuthenticated();
+    }
+  }
+};
 
 /***/ }),
 
@@ -37550,44 +37583,52 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.submit($event)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "card-body" }, [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            staticClass: "form-control border-0 bg-light",
-            attrs: { name: "body", placeholder: "¿Qué estás pensando Stalin?" },
-            domProps: { value: _vm.body },
+    _vm.isAuthenticated
+      ? _c(
+          "form",
+          {
             on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.body = $event.target.value
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.submit($event)
               }
             }
-          })
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ]
-    )
+          },
+          [
+            _c("div", { staticClass: "card-body" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.body,
+                    expression: "body"
+                  }
+                ],
+                staticClass: "form-control border-0 bg-light",
+                attrs: {
+                  name: "body",
+                  placeholder:
+                    "¿Qué estás pensando " + _vm.currentUser.name + "?"
+                },
+                domProps: { value: _vm.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.body = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
+      : _c("div", { staticClass: "card-body" }, [
+          _c("a", { attrs: { href: "/login" } }, [_vm._v("Debes hacer login")])
+        ])
   ])
 }
 var staticRenderFns = [
@@ -49818,6 +49859,18 @@ Vue.compile = compileToFunctions;
 /******/ 	// It's empty as some runtime module handles the default behavior
 /******/ 	__webpack_require__.x = x => {};
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
