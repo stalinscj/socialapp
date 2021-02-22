@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use App\Http\Requests\StatusRequest;
+use App\Http\Resources\StatusResource;
 
 class StatusController extends Controller
 {
@@ -16,7 +17,7 @@ class StatusController extends Controller
     {
       $statuses = Status::latest()->paginate();
 
-      return $statuses;
+      return StatusResource::collection($statuses);
     }
 
     /**
@@ -33,6 +34,6 @@ class StatusController extends Controller
             'body'    => request('body')
         ]);
 
-        return response()->json(['body' => $status->body]);
+        return StatusResource::make($status);
     }
 }

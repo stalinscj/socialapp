@@ -5,8 +5,8 @@
                 <div class="d-flex align-items-center mb-3">
                     <img class="rounded mr-3 shadow-sm" width="40px" src="img/default-avatar.jpg" alt="User Image">
                     <div>
-                        <h5 class="mb-1">Stalin Sánchez</h5>
-                        <div class="small text-muted">Hace una hora</div>
+                        <h5 class="mb-1" v-text="status.user_name"></h5>
+                        <div class="small text-muted" v-text="status.ago"></div>
                     </div>
                 </div>
                 <p class="card-text text-secondary" v-text="status.body"></p>
