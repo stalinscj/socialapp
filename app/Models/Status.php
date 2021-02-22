@@ -55,6 +55,21 @@ class Status extends Model
     }
 
     /**
+     * Unlike the post
+     *
+     * @param \App\Models\User $user
+     * @return $this
+     */
+    public function unlike($user)
+    {
+        $this->likes()
+            ->where('user_id', $user->id)
+            ->delete();
+
+        return $this;
+    }
+
+    /**
      * Check if the post is liked by the user
      *
      * @param \App\Models\User $user

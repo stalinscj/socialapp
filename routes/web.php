@@ -22,5 +22,6 @@ Route::get('statuses',  [StatusController::class, 'index'])->name('statuses.inde
 Route::post('statuses', [StatusController::class, 'store'])->name('statuses.store')->middleware('auth');
 
 Route::post('statuses/{status}/likes', [StatusLikeController::class, 'store'])->name('statuses.likes.store')->middleware('auth');
+Route::delete('statuses/{status}/likes', [StatusLikeController::class, 'destroy'])->name('statuses.likes.destroy')->middleware('auth');
 
 Auth::routes();

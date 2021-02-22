@@ -39,4 +39,21 @@ class CanLikeStatusesTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
+    public function an_authenticated_user_can_unlike_statuses()
+    {
+        $user = $this->signIn();
+        $status = Status::factory()->create();
+        $status->like($user);
+
+        $this->deleteJson(route('statuses.likes.destroy', $status));
+
+        $this->assertDatabaseMissing('likes', [
+            'user_id'   => $user->id,
+            'status_id' => $status->id
+        ]);
+    }
+
 }

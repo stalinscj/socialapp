@@ -1941,6 +1941,13 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         console.log(err.response.data);
       });
+    },
+    unlike: function unlike(status) {
+      axios["delete"]("/statuses/".concat(status.id, "/likes")).then(function (response) {
+        status.is_liked = false;
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
     }
   }
 });
@@ -37715,7 +37722,18 @@ var render = function() {
             }),
             _vm._v(" "),
             status.is_liked
-              ? _c("button", [_vm._v("TE GUSTA")])
+              ? _c(
+                  "button",
+                  {
+                    attrs: { dusk: "unlike-btn" },
+                    on: {
+                      click: function($event) {
+                        return _vm.unlike(status)
+                      }
+                    }
+                  },
+                  [_vm._v("TE GUSTA")]
+                )
               : _c(
                   "button",
                   {
