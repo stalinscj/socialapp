@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\StatusLikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,7 @@ Route::view('/', 'welcome')->name('home');
 
 Route::get('statuses',  [StatusController::class, 'index'])->name('statuses.index');
 Route::post('statuses', [StatusController::class, 'store'])->name('statuses.store')->middleware('auth');
+
+Route::post('statuses/{status}/likes', [StatusLikeController::class, 'store'])->name('statuses.likes.store')->middleware('auth');
 
 Auth::routes();

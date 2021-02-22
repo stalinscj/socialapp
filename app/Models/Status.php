@@ -28,4 +28,29 @@ class Status extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the likes for the status.
+     * 
+     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Like the post
+     *
+     * @param \App\Models\User $user
+     * @return $this
+     */
+    public function like($user)
+    {
+        $this->likes()->firstOrCreate([
+            'user_id' => $user->id
+        ]);
+
+        return $this;
+    }
 }
