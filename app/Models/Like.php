@@ -18,4 +18,15 @@ class Like extends Model
         'status_id',
         'user_id',
     ];
+
+    /**
+     * Get the status that owns the like.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
 }

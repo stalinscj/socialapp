@@ -18,6 +18,7 @@
                 <button v-else class="btn btn-link btn-sm" dusk="like-btn" @click="like(status)">
                     <i class="far fa-thumbs-up text-primary mr-1"></i>ME GUSTA
                 </button>
+                <span dusk="likes-count" v-text="status.likes_count"></span>
             </div>
         </div>
     </div>
@@ -48,6 +49,7 @@ export default {
             axios.post(`/statuses/${status.id}/likes`)
                 .then(response => {
                     status.is_liked = true
+                    status.likes_count++
                 })
                 .catch(err => { 
                     console.log(err.response.data)
@@ -57,6 +59,7 @@ export default {
             axios.delete(`/statuses/${status.id}/likes`)
                 .then(response => {
                     status.is_liked = false
+                    status.likes_count--
                 })
                 .catch(err => { 
                     console.log(err.response.data)

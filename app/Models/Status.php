@@ -81,4 +81,14 @@ class Status extends Model
             ? $this->likes()->where('user_id', $user->id)->exists()
             : false;
     }
+
+    /**
+     * Returns how many likes has the status
+     *
+     * @return int
+     */
+    public function likesCount()
+    {
+        return $this->likes()->count();
+    }
 }
