@@ -11,14 +11,17 @@
                 </div>
                 <p class="card-text text-secondary" v-text="status.body"></p>
             </div>
-            <div class="card-footer p-2">
+            <div class="card-footer p-2 d-flex justify-content-between align-items-center">
                 <button v-if="status.is_liked" class="btn btn-link btn-sm" dusk="unlike-btn" @click="unlike(status)">
                     <b><i class="fa fa-thumbs-up text-primary mr-1"></i>TE GUSTA</b>
                 </button>
                 <button v-else class="btn btn-link btn-sm" dusk="like-btn" @click="like(status)">
                     <i class="far fa-thumbs-up text-primary mr-1"></i>ME GUSTA
                 </button>
-                <span dusk="likes-count" v-text="status.likes_count"></span>
+                <div class="mr-2 text-secondary">
+                    <i class="far fa-thumbs-up"></i>
+                    <span dusk="likes-count" v-text="status.likes_count"></span>
+                </div>
             </div>
         </div>
     </div>
