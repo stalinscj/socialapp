@@ -15,6 +15,21 @@ class UsersCanLikeStatusesTest extends DuskTestCase
     /**
      * @test
      */
+    public function guests_cannot_like_statuses()
+    {
+        $status = Status::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($status) {
+            $browser->visit('/')
+                ->waitForText($status->body)
+                ->press('@like-btn')
+                ->assertPathIs('/login');
+        });
+    }
+
+    /**
+     * @test
+     */
     public function users_can_like_and_unlike_statuses()
     {
         $user   = User::factory()->create();
