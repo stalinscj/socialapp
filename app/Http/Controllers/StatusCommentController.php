@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use App\Models\Comment;
+use App\Http\Resources\CommentResource;
 
 class StatusCommentController extends Controller
 {
@@ -15,10 +16,12 @@ class StatusCommentController extends Controller
      */
     public function store(Status $status)
     {
-        Comment::create([
+        $comment = Comment::create([
             'user_id'   => auth()->id(),
             'status_id' => $status->id,
             'body'      => request('body') 
         ]);
+
+        return CommentResource::make($comment);
     }
 }
