@@ -21,6 +21,16 @@ class Comment extends Model
     ];
 
     /**
+     * Get the user that owns the comment.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Get the status that owns the comment.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

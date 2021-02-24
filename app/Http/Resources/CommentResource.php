@@ -15,7 +15,9 @@ class CommentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'body' => $this->body,
+            'body'        => $this->body,
+            'user_name'   => $this->user->name,
+            'user_avatar' => 'img/default-avatar.jpg',
         ];
     }
 }

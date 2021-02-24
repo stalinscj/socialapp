@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Status;
 use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,6 +11,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class CommentTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @test
+     */
+    public function a_comment_belongs_to_user()
+    {
+        $comment = Comment::factory()->create();
+
+        $this->assertInstanceOf(User::class, $comment->user);
+    }
 
     /**
      * @test

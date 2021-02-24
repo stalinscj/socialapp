@@ -24,7 +24,10 @@
                 <button dusk="comment-btn">Enviar</button>
             </form>
 
-            <div v-for="comment in comments" :key="comment.body" v-text="comment.body"></div>
+            <div v-for="comment in comments" :key="comment.body">
+                {{ comment.body }}
+                {{ comment.user_name }}
+            </div>
 
         </div>
     </div>
