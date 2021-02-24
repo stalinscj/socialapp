@@ -36,7 +36,7 @@
                     <img class="rounded shadow-sm mr-2" width="34px" src="img/default-avatar.jpg" :alt="currentUser.name">
 
                     <div class="input-group">
-                        <textarea v-model="newComment" class="form-control border-0 shadow-sm" 
+                        <textarea v-model="newComment" class="form-control border-0 shadow-sm" required
                             name="comment" rows="1" placeholder="Escribe un comentario..."></textarea>
                         <div class="input-group-append">
                             <button class="btn btn-primary" dusk="comment-btn">Enviar</button>

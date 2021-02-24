@@ -37969,6 +37969,7 @@ var render = function() {
                 staticClass: "form-control border-0 bg-light",
                 attrs: {
                   name: "body",
+                  required: "",
                   placeholder:
                     "¿Qué estás pensando " + _vm.currentUser.name + "?"
                 },
@@ -38190,6 +38191,7 @@ var render = function() {
                       ],
                       staticClass: "form-control border-0 shadow-sm",
                       attrs: {
+                        required: "",
                         name: "comment",
                         rows: "1",
                         placeholder: "Escribe un comentario..."

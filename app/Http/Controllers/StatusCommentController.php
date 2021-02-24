@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use App\Models\Comment;
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 
 class StatusCommentController extends Controller
@@ -14,7 +15,7 @@ class StatusCommentController extends Controller
      * @param  \App\Models\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function store(Status $status)
+    public function store(CommentRequest $request, Status $status)
     {
         $comment = Comment::create([
             'user_id'   => auth()->id(),
