@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Like;
 use App\Models\User;
 use App\Models\Status;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LikeFactory extends Factory
@@ -23,9 +24,12 @@ class LikeFactory extends Factory
      */
     public function definition()
     {
+        $likeable = $this->faker->randomElement([Status::factory(), Comment::factory()]);
+
         return [
-            'status_id' => Status::factory(),
-            'user_id'   => User::factory(),
+            'user_id'       => User::factory(),
+            'likeable_id'   => $likeable,
+            'likeable_type' => $likeable->modelName(),
         ];
     }
 }

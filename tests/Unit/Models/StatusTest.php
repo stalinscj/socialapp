@@ -36,7 +36,7 @@ class StatusTest extends TestCase
     /**
      * @test
      */
-    public function a_status_has_many_likes()
+    public function a_status_morph_many_likes()
     {
         $status = Status::factory()->hasLikes(2)->create();
 
@@ -101,7 +101,7 @@ class StatusTest extends TestCase
 
         $this->assertEquals(0, $status->likesCount());
         
-        Like::factory(2)->for($status)->create();
+        Like::factory(2)->for($status, 'likeable')->create();
         
         $this->assertEquals(2, $status->likesCount());
     }

@@ -42,15 +42,15 @@ class Status extends Model
     /**
      * Get the likes for the status.
      * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->morphMany(Like::class, 'likeable');
     }
 
     /**
-     * Like the post
+     * Like the status
      *
      * @param \App\Models\User $user
      * @return $this
@@ -65,7 +65,7 @@ class Status extends Model
     }
 
     /**
-     * Unlike the post
+     * Unlike the status
      *
      * @param \App\Models\User $user
      * @return $this
@@ -80,7 +80,7 @@ class Status extends Model
     }
 
     /**
-     * Check if the post is liked by the user
+     * Check if the status is liked by the user
      *
      * @param \App\Models\User $user
      * @return bool

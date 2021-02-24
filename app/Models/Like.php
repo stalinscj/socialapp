@@ -20,13 +20,15 @@ class Like extends Model
     ];
 
     /**
-     * Get the status that owns the like.
+     * Get the parent likeable model (status or comment).
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function status()
+    public function likeable()
     {
-        return $this->belongsTo(Status::class);
+        return $this->morphTo();
     }
+
+    
 
 }

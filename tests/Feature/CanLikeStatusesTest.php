@@ -26,34 +26,24 @@ class CanLikeStatusesTest extends TestCase
     /**
      * @test
      */
-    public function an_authenticated_user_can_like_statuses()
+    public function an_authenticated_user_can_like_and_unlike_statuses()
     {
         $user = $this->signIn();
         $status = Status::factory()->create();
+
+        $this->assertCount(0, $status->likes);
 
         $this->postJson(route('statuses.likes.store', $status));
 
-        $this->assertDatabaseHas('likes', [
-            'user_id'   => $user->id,
-            'status_id' => $status->id
-        ]);
-    }
+        $this->assertCount(1, $status->fresh()->likes);
 
-    /**
-     * @test
-     */
-    public function an_authenticated_user_can_unlike_statuses()
-    {
-        $user = $this->signIn();
-        $status = Status::factory()->create();
-        $status->like($user);
-
+        $this->assertDatabaseHas('likes', ['user_id' => $user->id]);
+        
         $this->deleteJson(route('statuses.likes.destroy', $status));
-
-        $this->assertDatabaseMissing('likes', [
-            'user_id'   => $user->id,
-            'status_id' => $status->id
-        ]);
+        
+        $this->assertCount(0, $status->fresh()->likes);
+        
+        $this->assertDatabaseMissing('likes', ['user_id' => $user->id]);
     }
 
 }
