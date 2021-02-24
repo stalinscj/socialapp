@@ -2020,6 +2020,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2029,6 +2037,27 @@ __webpack_require__.r(__webpack_exports__);
     status: {
       type: Object,
       required: true
+    }
+  },
+  data: function data() {
+    return {
+      newComment: '',
+      comments: []
+    };
+  },
+  methods: {
+    addComment: function addComment() {
+      var _this = this;
+
+      axios.post("/statuses/".concat(this.status.id, "/comments"), {
+        body: this.newComment
+      }).then(function (response) {
+        _this.newComment = '';
+
+        _this.comments.push(response.data.data);
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
     }
   }
 });
@@ -38072,9 +38101,52 @@ var render = function() {
             attrs: { dusk: "likes-count" },
             domProps: { textContent: _vm._s(_vm.status.likes_count) }
           })
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.addComment($event)
+              }
+            }
+          },
+          [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.newComment,
+                  expression: "newComment"
+                }
+              ],
+              attrs: { name: "comment", rows: "1" },
+              domProps: { value: _vm.newComment },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.newComment = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("button", { attrs: { dusk: "comment-btn" } }, [_vm._v("Enviar")])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.comments, function(comment) {
+          return _c("div", {
+            key: comment.body,
+            domProps: { textContent: _vm._s(comment.body) }
+          })
+        })
       ],
-      1
+      2
     )
   ])
 }
