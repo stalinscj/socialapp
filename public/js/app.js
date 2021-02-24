@@ -2031,6 +2031,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -38104,61 +38119,117 @@ var render = function() {
             attrs: { dusk: "likes-count" },
             domProps: { textContent: _vm._s(_vm.status.likes_count) }
           })
-        ]),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.addComment($event)
-              }
-            }
-          },
-          [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.newComment,
-                  expression: "newComment"
-                }
-              ],
-              attrs: { name: "comment", rows: "1" },
-              domProps: { value: _vm.newComment },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.newComment = $event.target.value
-                }
+        ])
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-footer" },
+      [
+        _vm._l(_vm.comments, function(comment) {
+          return _c("div", { key: comment.body }, [
+            _c("img", {
+              staticClass: "rounded shadow-sm float-left mr-2",
+              attrs: {
+                width: "34px",
+                src: comment.user_avatar,
+                alt: comment.user_name
               }
             }),
             _vm._v(" "),
-            _c("button", { attrs: { dusk: "comment-btn" } }, [_vm._v("Enviar")])
-          ]
-        ),
-        _vm._v(" "),
-        _vm._l(_vm.comments, function(comment) {
-          return _c("div", { key: comment.body }, [
-            _vm._v(
-              "\n            " +
-                _vm._s(comment.body) +
-                "\n            " +
-                _vm._s(comment.user_name) +
-                "\n        "
-            )
+            _c("div", { staticClass: "card mb-3 border-0 shadow-sm" }, [
+              _c("div", { staticClass: "card-body p-2 text-secondary" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("b", {
+                    domProps: { textContent: _vm._s(comment.user_name) }
+                  })
+                ]),
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(comment.body) +
+                    "\n                "
+                )
+              ])
+            ])
           ])
-        })
+        }),
+        _vm._v(" "),
+        _vm.isAuthenticated
+          ? _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.addComment($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _c("img", {
+                    staticClass: "rounded shadow-sm mr-2",
+                    attrs: {
+                      width: "34px",
+                      src: "img/default-avatar.jpg",
+                      alt: _vm.currentUser.name
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newComment,
+                          expression: "newComment"
+                        }
+                      ],
+                      staticClass: "form-control border-0 shadow-sm",
+                      attrs: {
+                        name: "comment",
+                        rows: "1",
+                        placeholder: "Escribe un comentario..."
+                      },
+                      domProps: { value: _vm.newComment },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.newComment = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
       ],
       2
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-append" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { dusk: "comment-btn" } },
+        [_vm._v("Enviar")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

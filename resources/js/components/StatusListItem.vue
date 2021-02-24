@@ -18,17 +18,32 @@
                 <i class="far fa-thumbs-up"></i>
                 <span dusk="likes-count" v-text="status.likes_count"></span>
             </div>
+        </div>
 
-            <form @submit.prevent="addComment">
-                <textarea name="comment" v-model="newComment" rows="1"></textarea>
-                <button dusk="comment-btn">Enviar</button>
-            </form>
-
+        <div class="card-footer">
             <div v-for="comment in comments" :key="comment.body">
-                {{ comment.body }}
-                {{ comment.user_name }}
+                <img class="rounded shadow-sm float-left mr-2" width="34px" :src="comment.user_avatar" :alt="comment.user_name">
+                <div class="card mb-3 border-0 shadow-sm">
+                    <div class="card-body p-2 text-secondary">
+                        <a href="#"><b v-text="comment.user_name"></b></a>
+                        {{ comment.body }}
+                    </div>
+                </div>
             </div>
 
+            <form @submit.prevent="addComment" v-if="isAuthenticated">
+                <div class="d-flex align-items-center">
+                    <img class="rounded shadow-sm mr-2" width="34px" src="img/default-avatar.jpg" :alt="currentUser.name">
+
+                    <div class="input-group">
+                        <textarea v-model="newComment" class="form-control border-0 shadow-sm" 
+                            name="comment" rows="1" placeholder="Escribe un comentario..."></textarea>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" dusk="comment-btn">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>

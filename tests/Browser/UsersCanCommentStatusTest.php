@@ -16,21 +16,6 @@ class UsersCanCommentStatusTest extends DuskTestCase
     /**
      * @test
      */
-    public function guests_cannot_comment_statuses()
-    {
-        $status = Status::factory()->create();
-
-        $this->browse(function (Browser $browser) use ($status) {
-            $browser->visit('/')
-                ->waitForText($status->body)
-                ->press('@comment-btn')
-                ->assertPathIs('/login');
-        });
-    }
-
-    /**
-     * @test
-     */
     public function users_can_comment_statuses()
     {
         $user   = User::factory()->create();
