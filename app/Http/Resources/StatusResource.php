@@ -22,6 +22,7 @@ class StatusResource extends JsonResource
             'ago'         => $this->created_at->diffForHumans(),
             'is_liked'    => $this->isLiked(auth()->user()),
             'likes_count' => $this->likes_count,
+            'comments'    => CommentResource::collection($this->comments),
         ];
     }
 }

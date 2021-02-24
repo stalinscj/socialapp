@@ -30,6 +30,16 @@ class Status extends Model
     }
 
     /**
+     * Get the comments for the status.
+     * 
+     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Get the likes for the status.
      * 
      * @return @return \Illuminate\Database\Eloquent\Relations\HasMany

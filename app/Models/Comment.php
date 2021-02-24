@@ -19,4 +19,14 @@ class Comment extends Model
         'status_id',
         'body',
     ];
+
+    /**
+     * Get the status that owns the comment.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }
