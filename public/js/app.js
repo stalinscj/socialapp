@@ -2046,6 +2046,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2073,6 +2081,22 @@ __webpack_require__.r(__webpack_exports__);
         _this.newComment = '';
 
         _this.comments.push(response.data.data);
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
+    },
+    likeComment: function likeComment(comment) {
+      axios.post("/comments/".concat(comment.id, "/likes")).then(function (response) {
+        comment.is_liked = true;
+        comment.likes_count++;
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
+    },
+    unlikeComment: function unlikeComment(comment) {
+      axios["delete"]("/comments/".concat(comment.id, "/likes")).then(function (response) {
+        comment.is_liked = false;
+        comment.likes_count--;
       })["catch"](function (err) {
         console.log(err.response.data);
       });
@@ -38153,7 +38177,45 @@ var render = function() {
                     "\n                "
                 )
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _c("span", {
+              attrs: { dusk: "comment-likes-count" },
+              domProps: { textContent: _vm._s(comment.likes_count) }
+            }),
+            _vm._v(" "),
+            comment.is_liked
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-link btn-sm",
+                    attrs: { dusk: "comment-unlike-btn" },
+                    on: {
+                      click: function($event) {
+                        return _vm.unlikeComment(comment)
+                      }
+                    }
+                  },
+                  [_vm._m(0, true)]
+                )
+              : _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-link btn-sm",
+                    attrs: { dusk: "comment-like-btn" },
+                    on: {
+                      click: function($event) {
+                        return _vm.likeComment(comment)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "far fa-thumbs-up text-primary mr-1"
+                    }),
+                    _vm._v("ME GUSTA\n            ")
+                  ]
+                )
           ])
         }),
         _vm._v(" "),
@@ -38207,7 +38269,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm._m(0)
+                    _vm._m(1)
                   ])
                 ])
               ]
@@ -38219,6 +38281,15 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("b", [
+      _c("i", { staticClass: "fa fa-thumbs-up text-primary mr-1" }),
+      _vm._v("TE GUSTA")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

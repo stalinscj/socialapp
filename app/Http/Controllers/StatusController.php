@@ -15,8 +15,15 @@ class StatusController extends Controller
      */
     public function index()
     {
-      $statuses = Status::with('comments.user')->withCount('likes')->latest()->paginate();
-
+      $statuses = Status::with('user')
+            ->with(['comments' => function ($query) {
+                $query->with('user')->withCount('likes')->withIsLiked(auth()->id());
+            }])
+            ->withCount('likes')
+            ->withIsLiked(auth()->id())
+            ->latest()
+            ->paginate();
+        
       return StatusResource::collection($statuses);
     }
 

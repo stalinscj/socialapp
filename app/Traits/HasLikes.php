@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Like;
+use App\Models\User;
 
 trait HasLikes
 {
@@ -67,5 +68,30 @@ trait HasLikes
     public function likesCount()
     {
         return $this->likes()->count();
+    }
+
+    /**
+     * Scope a query to include is_liked attribute checking if the user likes the model.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\Http\Modules\User\User|string|id $user
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithIsLiked($query, $user)
+    {
+        $user = $user instanceof User ? $user->id : $user;
+        
+        $likeableTable = $this->getTable();
+        $likeableModel = get_class($this);
+
+        $subQuery = Like::selectRaw('CASE WHEN COUNT(1) THEN 1 ELSE 0 END')
+            ->whereRaw("likeable_id = $likeableTable.id")
+            ->where('likeable_type', $likeableModel)
+            ->where('user_id', $user);
+
+        $query->selectSub($subQuery, 'is_liked');
+
+        return $query;
     }
 }

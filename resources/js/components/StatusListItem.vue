@@ -29,6 +29,14 @@
                         {{ comment.body }}
                     </div>
                 </div>
+                <span dusk="comment-likes-count" v-text="comment.likes_count"></span>
+                <button v-if="comment.is_liked" class="btn btn-link btn-sm" dusk="comment-unlike-btn" @click="unlikeComment(comment)">
+                    <b><i class="fa fa-thumbs-up text-primary mr-1"></i>TE GUSTA</b>
+                </button>
+
+                <button v-else class="btn btn-link btn-sm" dusk="comment-like-btn" @click="likeComment(comment)">
+                    <i class="far fa-thumbs-up text-primary mr-1"></i>ME GUSTA
+                </button>
             </div>
 
             <form @submit.prevent="addComment" v-if="isAuthenticated">
@@ -72,6 +80,26 @@ export default {
                 .then(response => {
                     this.newComment = ''
                     this.comments.push(response.data.data)
+                })
+                .catch(err => { 
+                    console.log(err.response.data)
+                })
+        },
+        likeComment(comment) {
+            axios.post(`/comments/${comment.id}/likes`)
+                .then(response => {
+                    comment.is_liked = true
+                    comment.likes_count++
+                })
+                .catch(err => { 
+                    console.log(err.response.data)
+                })
+        },
+        unlikeComment(comment) {
+            axios.delete(`/comments/${comment.id}/likes`)
+                .then(response => {
+                    comment.is_liked = false
+                    comment.likes_count--
                 })
                 .catch(err => { 
                     console.log(err.response.data)

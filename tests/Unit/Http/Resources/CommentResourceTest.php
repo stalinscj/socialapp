@@ -20,10 +20,16 @@ class CommentResourceTest extends TestCase
 
         $commentResource = CommentResource::make($comment)->resolve();
 
+        $this->assertEquals($comment->id, $commentResource['id']);
+
         $this->assertEquals($comment->body, $commentResource['body']);
         
         $this->assertEquals($comment->user->name, $commentResource['user_name']);
         
         $this->assertEquals('img/default-avatar.jpg', $commentResource['user_avatar']);
+
+        $this->assertEquals(0, $commentResource['likes_count']);
+
+        $this->assertEquals(false, $commentResource['is_liked']);
     }
 }
