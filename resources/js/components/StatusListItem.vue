@@ -12,7 +12,7 @@
         </div>
         <div class="card-footer p-2 d-flex justify-content-between align-items-center">
             
-            <like-btn :status="status"></like-btn>
+            <like-btn dusk="like-btn" :model="status" :url="`/statuses/${status.id}/likes`"></like-btn>
 
             <div class="mr-2 text-secondary">
                 <i class="far fa-thumbs-up"></i>
@@ -30,13 +30,8 @@
                     </div>
                 </div>
                 <span dusk="comment-likes-count" v-text="comment.likes_count"></span>
-                <button v-if="comment.is_liked" class="btn btn-link btn-sm" dusk="comment-unlike-btn" @click="unlikeComment(comment)">
-                    <b><i class="fa fa-thumbs-up text-primary mr-1"></i>TE GUSTA</b>
-                </button>
 
-                <button v-else class="btn btn-link btn-sm" dusk="comment-like-btn" @click="likeComment(comment)">
-                    <i class="far fa-thumbs-up text-primary mr-1"></i>ME GUSTA
-                </button>
+                <like-btn dusk="comment-like-btn" :model="comment" :url="`/comments/${comment.id}/likes`"></like-btn>
             </div>
 
             <form @submit.prevent="addComment" v-if="isAuthenticated">
@@ -84,27 +79,7 @@ export default {
                 .catch(err => { 
                     console.log(err.response.data)
                 })
-        },
-        likeComment(comment) {
-            axios.post(`/comments/${comment.id}/likes`)
-                .then(response => {
-                    comment.is_liked = true
-                    comment.likes_count++
-                })
-                .catch(err => { 
-                    console.log(err.response.data)
-                })
-        },
-        unlikeComment(comment) {
-            axios.delete(`/comments/${comment.id}/likes`)
-                .then(response => {
-                    comment.is_liked = false
-                    comment.likes_count--
-                })
-                .catch(err => { 
-                    console.log(err.response.data)
-                })
-        },
+        }
     }
 }
 </script>

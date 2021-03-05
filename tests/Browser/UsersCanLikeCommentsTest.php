@@ -15,17 +15,17 @@ class UsersCanLikeCommentsTest extends DuskTestCase
     /**
      * @test
      */
-    // public function guests_cannot_like_comments()
-    // {
-    //     $comment = Comment::factory()->create();
+    public function guests_cannot_like_comments()
+    {
+        $comment = Comment::factory()->create();
 
-    //     $this->browse(function (Browser $browser) use ($comment) {
-    //         $browser->visit('/')
-    //             ->waitForText($comment->body)
-    //             ->press('@comment-like-btn')
-    //             ->assertPathIs('/login');
-    //     });
-    // }
+        $this->browse(function (Browser $browser) use ($comment) {
+            $browser->visit('/')
+                ->waitForText($comment->body)
+                ->press('@comment-like-btn')
+                ->assertPathIs('/login');
+        });
+    }
 
     /**
      * @test
@@ -44,7 +44,7 @@ class UsersCanLikeCommentsTest extends DuskTestCase
                 ->waitForText('TE GUSTA')
                 ->assertSee('TE GUSTA')
                 ->assertSeeIn('@comment-likes-count', 1)
-                ->press('@comment-unlike-btn')
+                ->press('@comment-like-btn')
                 ->waitForText('ME GUSTA')
                 ->assertSee('ME GUSTA')
                 ->assertSeeIn('@comment-likes-count', 0);

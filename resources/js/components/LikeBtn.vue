@@ -1,44 +1,63 @@
 <template>
     
-    <button v-if="status.is_liked" class="btn btn-link btn-sm" dusk="unlike-btn" @click="unlike(status)">
-        <b><i class="fa fa-thumbs-up text-primary mr-1"></i>TE GUSTA</b>
+    <button :class="getBtnClasses" @click="toggle()">
+        <i :class="getIconClasses"></i>
+        {{ getText }}
     </button>
     
-    <button v-else class="btn btn-link btn-sm" dusk="like-btn" @click="like(status)">
-        <i class="far fa-thumbs-up text-primary mr-1"></i>ME GUSTA
-    </button>
 </template>
 
 <script>
 export default {
     props: {
-        status: {
+        model: {
             type: Object,
             required: true,
+        },
+        url: {
+            type: String,
+            required: true
         }
     },
     methods: {
-        like(status) {
-            axios.post(`/statuses/${status.id}/likes`)
+        toggle() {
+            let method = this.model.is_liked ? 'delete' : 'post'
+
+            axios[method](this.url)
                 .then(response => {
-                    status.is_liked = true
-                    status.likes_count++
+                    this.model.is_liked = !this.model.is_liked
+                    if (method=='post') {
+                        this.model.likes_count++
+                    } else {
+                        this.model.likes_count--
+                    }
                 })
                 .catch(err => { 
                     console.log(err.response.data)
                 })
+        }
+    },
+    computed: {
+        getText() {
+            return this.model.is_liked ? 'TE GUSTA' : 'ME GUSTA'
         },
-        unlike(status) {
-            axios.delete(`/statuses/${status.id}/likes`)
-                .then(response => {
-                    status.is_liked = false
-                    status.likes_count--
-                })
-                .catch(err => { 
-                    console.log(err.response.data)
-                })
+        getBtnClasses() {
+            return [
+                'btn',
+                'btn-link',
+                'btn-sm',
+                this.model.is_liked ? 'font-weight-bold' : '',
+            ]
         },
-    }
+        getIconClasses() {
+            return [
+                'fa-thumbs-up',
+                'text-primary',
+                'mr-1',
+                this.model.is_liked ? 'fa' : 'far',
+            ]
+        },
+    },
 }
 </script>
 
