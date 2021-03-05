@@ -23,4 +23,22 @@ abstract class TestCase extends BaseTestCase
 
         return $user;
     }
+
+    /**
+     * Assert Class Uses Trait
+     *
+     * @param  string  $model
+     * @param  string|array  $trait
+     * @return void
+     */
+    protected function assertClassUsesTrait($model, $trait)
+    {
+        $traits = collect($trait);
+        $traitsUsed = class_uses($model);
+
+        foreach ($traits as $trait) {
+            $this->assertArrayHasKey($trait, $traitsUsed, "$model must use $trait trait");
+        }
+    }
+
 }

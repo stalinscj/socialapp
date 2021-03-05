@@ -3,10 +3,10 @@
 namespace Tests\Unit\Models;
 
 use Tests\TestCase;
-use App\Models\Like;
 use App\Models\User;
 use App\Models\Status;
 use App\Models\Comment;
+use App\Traits\HasLikes;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StatusTest extends TestCase
@@ -36,73 +36,9 @@ class StatusTest extends TestCase
     /**
      * @test
      */
-    public function a_status_morph_many_likes()
+    public function status_model_must_use_the_has_likes_trait()
     {
-        $status = Status::factory()->hasLikes(2)->create();
-
-        $this->assertInstanceOf(Like::class, $status->likes->first());
+        $this->assertClassUsesTrait(Status::class, HasLikes::class);
     }
 
-    /**
-     * @test
-     */
-    public function a_status_can_be_liked_and_unliked()
-    {
-        $user = $this->signIn();
-        $status = Status::factory()->create();
-
-        $status->like($user);
-
-        $this->assertEquals(1, $status->likes->count());
-        
-        $status->unlike($user);
-
-        $this->assertEquals(0, $status->fresh()->likes->count());
-    }
-
-    /**
-     * @test
-     */
-    public function a_status_can_be_liked_once()
-    {
-        $user = $this->signIn();
-        $status = Status::factory()->create();
-
-        $status->like($user);
-        
-        $this->assertEquals(1, $status->likes->count());
-        
-        $status->like($user);
-        
-        $this->assertEquals(1, $status->fresh()->likes->count());
-    }
-
-    /**
-     * @test
-     */
-    public function a_status_knows_if_has_been_liked()
-    {
-        $user = $this->signIn();
-        $status = Status::factory()->create();
-
-        $this->assertFalse($status->isLiked($user));
-        
-        $status->like($user);
-
-        $this->assertTrue($status->isLiked($user));
-    }
-
-    /**
-     * @test
-     */
-    public function a_status_knows_how_many_likes_it_has()
-    {
-        $status = Status::factory()->create();
-
-        $this->assertEquals(0, $status->likesCount());
-        
-        Like::factory(2)->for($status, 'likeable')->create();
-        
-        $this->assertEquals(2, $status->likesCount());
-    }
 }
