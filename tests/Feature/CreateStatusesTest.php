@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Status;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateStatusesTest extends TestCase
@@ -26,19 +27,22 @@ class CreateStatusesTest extends TestCase
     {
         $user = $this->signIn();
 
-        $response = $this->postJson(route('statuses.store'), ['body' => 'Mi primer status']);
+        $attributes = Status::factory()->for($user)->raw();
+
+        $response = $this->postJson(route('statuses.store'), $attributes);
 
         $response->assertJson([
             'data' => [
-                'body'      => 'Mi primer status',
-                'user_name' => $user->name,
+                'body' => $attributes['body'],
+                'user' => [
+                    'name'   => $user->name,
+                    'link'   => $user->link(),
+                    'avatar' => $user->avatar(),
+                ]
             ]
         ]);
 
-        $this->assertDatabaseHas('statuses', [
-            'user_id' => $user->id,
-            'body'    => 'Mi primer status'
-        ]);
+        $this->assertDatabaseHas('statuses', $attributes);
     }
 
     /**
