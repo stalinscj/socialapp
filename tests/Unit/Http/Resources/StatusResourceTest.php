@@ -28,7 +28,9 @@ class StatusResourceTest extends TestCase
 
         $this->assertEquals($status->user->name, $statusResource['user_name']);
 
-        $this->assertEquals('img/default-avatar.jpg', $statusResource['user_avatar']);
+        $this->assertEquals($status->user->link(), $statusResource['user_link']);
+
+        $this->assertEquals($status->user->avatar(), $statusResource['user_avatar']);
 
         $this->assertEquals($status->created_at->diffForHumans(), $statusResource['ago']);
 

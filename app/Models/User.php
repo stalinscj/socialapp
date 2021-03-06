@@ -40,4 +40,35 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
+    /**
+     * Returns the user profile link
+     *
+     * @return string
+     */
+    public function link()
+    {
+        return route('users.show', $this);
+    }
+
+    /**
+     * Returns the user avatar link
+     *
+     * @return string
+     */
+    public function avatar()
+    {
+        return 'img/default-avatar.jpg';
+    }
+
 }

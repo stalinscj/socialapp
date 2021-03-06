@@ -17,10 +17,10 @@ class StatusController extends Controller
     {
       $statuses = Status::with('user')
             ->with(['comments' => function ($query) {
-                $query->with('user')->withCount('likes')->withIsLiked(auth()->id());
+                $query->with('user')->withCount('likes')->addIsLiked(auth()->id());
             }])
             ->withCount('likes')
-            ->withIsLiked(auth()->id())
+            ->addIsLiked(auth()->id())
             ->latest()
             ->paginate();
         

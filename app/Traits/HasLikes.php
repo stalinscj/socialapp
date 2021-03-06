@@ -78,7 +78,7 @@ trait HasLikes
      * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithIsLiked($query, $user)
+    public function scopeAddIsLiked($query, $user)
     {
         $user = $user instanceof User ? $user->id : $user;
         
