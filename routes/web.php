@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\StatusLikeController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\StatusCommentController;
+use App\Http\Controllers\RequestFriendshipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,5 +45,11 @@ Route::get('@{user}', [UserController::class, 'show'])->name('users.show');
 
 // Users Statuses routes
 Route::get('user/{user}/statuses',  [UserStatusController::class, 'index'])->name('users.statuses.index');
+
+// Friendship routes
+Route::post('friendships/{recipient}', [FriendshipController::class, 'store'])->name('friendships.store')->middleware('auth');
+
+// Request Friendship routes
+Route::post('request-friendships/{sender}', [RequestFriendshipController::class, 'store'])->name('request-friendships.store')->middleware('auth');
 
 Auth::routes();
