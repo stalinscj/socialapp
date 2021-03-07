@@ -15,7 +15,18 @@ class CanRequestFriendshipTest extends TestCase
     /**
      * @test
      */
-    public function can_create_friendschip_request()
+    public function guests_cannot_create_friendship_request()
+    {
+        $recipient = User::factory()->create();
+
+        $this->postJson(route('friendships.store', $recipient))
+            ->assertUnauthorized();
+    }
+
+    /**
+     * @test
+     */
+    public function can_create_friendship_request()
     {
         $sender = $this->signIn();
 
@@ -33,7 +44,18 @@ class CanRequestFriendshipTest extends TestCase
     /**
      * @test
      */
-    public function can_delete_friendschip_request()
+    public function guests_cannot_delete_friendship_request()
+    {
+        $friendship = Friendship::factory()->create();
+
+        $this->deleteJson(route('friendships.destroy', $friendship->recipient))
+            ->assertUnauthorized();
+    }
+
+    /**
+     * @test
+     */
+    public function can_delete_friendship_request()
     {
         $friendship = Friendship::factory()->create();
 
@@ -50,7 +72,18 @@ class CanRequestFriendshipTest extends TestCase
     /**
      * @test
      */
-    public function can_accept_friendschip_request()
+    public function guests_cannot_accept_friendship_request()
+    {
+        $friendship = Friendship::factory()->create();
+
+        $this->postJson(route('accept-friendships.store', $friendship->sender))
+            ->assertUnauthorized();
+    }
+
+    /**
+     * @test
+     */
+    public function can_accept_friendship_request()
     {
         $friendship = Friendship::factory()->create();
 
@@ -68,7 +101,18 @@ class CanRequestFriendshipTest extends TestCase
     /**
      * @test
      */
-    public function can_deny_friendschip_request()
+    public function guests_cannot_deny_friendship_request()
+    {
+        $friendship = Friendship::factory()->create();
+
+        $this->deleteJson(route('accept-friendships.destroy', $friendship->sender))
+            ->assertUnauthorized();
+    }
+
+    /**
+     * @test
+     */
+    public function can_deny_friendship_request()
     {
         $friendship = Friendship::factory()->create();
 
