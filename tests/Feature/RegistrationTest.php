@@ -65,8 +65,22 @@ class RegistrationTest extends TestCase
         $this->register($this->getValidAttributes(['name' => 123456]))
             ->assertSessionHasErrors('name');
 
+        // The name must be at least 3 chars
+        $this->register($this->getValidAttributes(['name' => Str::random(2)]))
+            ->assertSessionHasErrors('name');
+
         // The name may not be greater than 60 chars
         $this->register($this->getValidAttributes(['name' => Str::random(61)]))
+            ->assertSessionHasErrors('name');
+
+        // The name may only contain letters, numbers, and dashes
+        $this->register($this->getValidAttributes(['name' => 'Juan < Perez']))
+            ->assertSessionHasErrors('name');
+
+        $user = User::factory()->create();
+    
+    // The name must be unique
+        $this->register($this->getValidAttributes(['name' => $user->name]))
             ->assertSessionHasErrors('name');
     }
 
@@ -83,8 +97,16 @@ class RegistrationTest extends TestCase
         $this->register($this->getValidAttributes(['first_name' => 123456])) 
             ->assertSessionHasErrors('first_name');
 
+        // The first_name must be at least 3 chars
+        $this->register($this->getValidAttributes(['first_name' => Str::random(2)]))
+            ->assertSessionHasErrors('first_name');
+
         // The first_name may not be greater than 60 chars
         $this->register($this->getValidAttributes(['first_name' => Str::random(61)]))
+            ->assertSessionHasErrors('first_name');
+
+        // The first_name may only contain letters
+        $this->register($this->getValidAttributes(['first_name' => 'Juan Perez']))
             ->assertSessionHasErrors('first_name');
     }
 
@@ -101,9 +123,18 @@ class RegistrationTest extends TestCase
         $this->register($this->getValidAttributes(['last_name' => 123456])) 
             ->assertSessionHasErrors('last_name');
 
+        // The last_name must be at least 3 chars
+        $this->register($this->getValidAttributes(['last_name' => Str::random(2)]))
+            ->assertSessionHasErrors('last_name');
+
         // The last_name may not be greater than 60 chars
         $this->register($this->getValidAttributes(['last_name' => Str::random(61)]))
             ->assertSessionHasErrors('last_name');
+
+        // The last_name may only contain letters
+        $this->register($this->getValidAttributes(['last_name' => 'Juan Perez']))
+            ->assertSessionHasErrors('last_name');
+        
     }
 
     /**
