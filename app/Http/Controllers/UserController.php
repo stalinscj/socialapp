@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Friendship;
 
 class UserController extends Controller
 {
@@ -14,7 +15,15 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $friendshipStatus = Friendship::query()
+            ->where([
+                'sender_id'    => auth()->id(),
+                'recipient_id' => $user->id,
+            ])
+            ->first()
+            ->status ?? '';
+        
+        return view('users.show', compact('user', 'friendshipStatus'));
     }
 
 }

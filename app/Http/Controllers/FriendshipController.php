@@ -17,10 +17,12 @@ class FriendshipController extends Controller
      */
     public function store(Request $request, User $recipient)
     {
-        Friendship::create([
+        Friendship::firstOrCreate([
             'sender_id'    => auth()->id(),
             'recipient_id' => $recipient->id,
         ]);
+
+        return response()->json(['friendship_status' => Friendship::STATUS_PENDING]);
     }
 
     /**
@@ -37,5 +39,7 @@ class FriendshipController extends Controller
                 'recipient_id' => $recipient->id,
             ])
             ->delete();
+        
+        return response()->json(['friendship_status' => '']);
     }
 }

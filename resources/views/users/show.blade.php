@@ -13,7 +13,14 @@
 
                     <div class="card-body">
                         <h5 class="card-title">{{ $user->name }}</h5>
-                        <friendship-btn :recipient="{{ $user }}" class="btn btn-primary btn-block"></friendship-btn>
+                        
+                        <friendship-btn
+                            dusk="request-friendship"
+                            class="btn btn-primary btn-block"
+                            :recipient="{{ $user }}" 
+                            friendship-status="{{ $friendshipStatus }}"
+                        ></friendship-btn>
+
                     </div>
 
                 </div>

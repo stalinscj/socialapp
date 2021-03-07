@@ -1858,23 +1858,44 @@ __webpack_require__.r(__webpack_exports__);
     recipient: {
       type: Object,
       required: true
+    },
+    friendshipStatus: {
+      type: String,
+      required: true
     }
   },
   methods: {
-    sendRequestFriendship: function sendRequestFriendship() {
+    toggleFriendshipStatus: function toggleFriendshipStatus() {
       var _this = this;
 
-      axios.post("friendships/".concat(this.recipient.name)).then(function (response) {
-        _this.textBtn = 'Solicitud Enviada';
+      var method = this.getMethod();
+      axios[method]("friendships/".concat(this.recipient.name)).then(function (response) {
+        _this.localFriendshipStatus = response.data.friendship_status;
       })["catch"](function (err) {
         console.log(err.response.data);
       });
+    },
+    getMethod: function getMethod() {
+      return this.localFriendshipStatus == 'PENDING' ? 'delete' : 'post';
     }
   },
   data: function data() {
     return {
-      textBtn: 'Solicitar Amistad'
+      localFriendshipStatus: this.friendshipStatus
     };
+  },
+  computed: {
+    getText: function getText() {
+      var textSwitch = function textSwitch(status) {
+        return {
+          'PENDING': 'Cancelar Solicitud',
+          'ACCEPTED': 'Son Amigos',
+          'DENIED': 'Solicitud Rechazada'
+        }[status] || 'Solicitar Amistad';
+      };
+
+      return textSwitch(this.localFriendshipStatus);
+    }
   }
 });
 
@@ -38460,14 +38481,13 @@ var render = function() {
   return _c(
     "button",
     {
-      attrs: { dusk: "request-friendship" },
       on: {
         click: function($event) {
-          return _vm.sendRequestFriendship()
+          return _vm.toggleFriendshipStatus()
         }
       }
     },
-    [_vm._v("\n    " + _vm._s(_vm.textBtn) + "\n")]
+    [_vm._v("\n    " + _vm._s(_vm.getText) + "\n")]
   )
 }
 var staticRenderFns = []
