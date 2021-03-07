@@ -44,6 +44,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['avatar'];
+
+    /**
      * Get the route key for the model.
      *
      * @return string
@@ -61,6 +68,16 @@ class User extends Authenticatable
     public function link()
     {
         return route('users.show', $this);
+    }
+
+    /**
+     * Get the user's avatar.
+     *
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        return $this->avatar();
     }
 
     /**

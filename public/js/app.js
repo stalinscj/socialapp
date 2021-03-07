@@ -38646,7 +38646,7 @@ var render = function() {
                     staticClass: "rounded shadow-sm mr-2",
                     attrs: {
                       width: "34px",
-                      src: "img/default-avatar.jpg",
+                      src: _vm.currentUser.avatar,
                       alt: _vm.currentUser.name
                     }
                   }),

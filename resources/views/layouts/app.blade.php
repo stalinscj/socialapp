@@ -48,7 +48,8 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     @guest
-                        <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
+                        <li class="nav-item"><a href="{{ route('login') }}"    class="nav-link">Login</a></li>
+                        <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Registro</a></li>
                     @else    
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
@@ -56,8 +57,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="{{ route('users.show', Auth::user()) }}">Perfil</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" onclick="document.getElementById('logout').submit()" href="#">Cerrar Sesión</a>
                             </div>

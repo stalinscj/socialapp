@@ -49,7 +49,7 @@
 
             <form @submit.prevent="addComment" v-if="isAuthenticated">
                 <div class="d-flex align-items-center">
-                    <img class="rounded shadow-sm mr-2" width="34px" src="img/default-avatar.jpg" :alt="currentUser.name">
+                    <img class="rounded shadow-sm mr-2" width="34px" :src="currentUser.avatar" :alt="currentUser.name">
 
                     <div class="input-group">
                         <textarea v-model="newComment" class="form-control border-0 shadow-sm" required
