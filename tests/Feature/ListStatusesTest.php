@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Status;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class ListStatusesTest extends TestCase
 {
@@ -34,5 +35,37 @@ class ListStatusesTest extends TestCase
         ]);
 
         $this->assertEquals($lastStatus->body, $response->json('data.0.body'));
+    }
+
+    /**
+     * @test
+     */
+    public function can_get_statuses_for_a_specific_user()
+    {
+        $user = $this->signIn();
+        
+        $statuses = Status::factory(2)
+            ->for($user)
+            ->state(new Sequence(
+                ['created_at' => now()->subDay(1)], 
+                ['created_at' => now()]
+            ))
+            ->create();
+
+        Status::factory(5)->create();
+        
+        $response = $this->getJson(route('users.statuses.index', $user))
+            ->assertOk();
+
+        $response->assertJson([
+            'meta' => ['total' => 2],
+        ]);
+
+        $response->assertJsonStructure([
+            'data',
+            'links' => ['prev', 'next'],
+        ]);
+
+        $this->assertEquals($statuses->last()->body, $response->json('data.0.body'));
     }
 }

@@ -1976,6 +1976,12 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     StatusListItem: _StatusListItem__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  props: {
+    url: {
+      type: String,
+      required: true
+    }
+  },
   data: function data() {
     return {
       statuses: []
@@ -1984,7 +1990,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/statuses').then(function (response) {
+    axios.get(this.url).then(function (response) {
       _this.statuses = response.data.data;
     })["catch"](function (err) {
       console.log(err.response.data);

@@ -48,8 +48,13 @@ class RegistrationTest extends TestCase
             ->assertSuccessful()
             ->assertViewIs('auth.register');
 
-        $this->register($this->validAttributes)
-            ->assertRedirect('/');
+        $response = $this->register($this->validAttributes);
+
+        if ($response->baseResponse->headers->get('location') == route('register')) {
+            $response->dumpSession();
+        }
+
+        $response->assertRedirect('/');
 
         $this->assertDatabaseHas('users', Arr::except($this->validAttributes, ['password', 'password_confirmation']));
 

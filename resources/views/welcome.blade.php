@@ -9,7 +9,7 @@
                     <status-form></status-form>
                 </div>
                 
-                <status-list></status-list>
+                <status-list url="{{ route('statuses.index') }}" ></status-list>
 
             </div>
         </div>

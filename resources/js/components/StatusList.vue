@@ -10,13 +10,19 @@ import StatusListItem from "./StatusListItem";
 
 export default {
     components: { StatusListItem },
+    props: {
+        url: {
+            type: String,
+            required: true
+        }
+    },
     data() {
         return {
             statuses: [],
         }
     },
     mounted() {
-        axios.get('/statuses')
+        axios.get(this.url)
             .then(response => {
                 this.statuses = response.data.data
             })
@@ -28,7 +34,6 @@ export default {
             this.statuses.unshift(status)
         });
     },
-    
 }
 </script>
 

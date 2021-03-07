@@ -90,4 +90,14 @@ class User extends Authenticatable
         return 'img/default-avatar.jpg';
     }
 
+    /**
+     * Get the statuses for the user.
+     * 
+     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
 }

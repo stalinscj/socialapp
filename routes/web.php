@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\StatusLikeController;
+use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\StatusCommentController;
 
@@ -39,5 +40,8 @@ Route::delete('comments/{comment}/likes', [CommentLikeController::class, 'destro
 
 // Users routes
 Route::get('@{user}', [UserController::class, 'show'])->name('users.show');
+
+// Users Statuses routes
+Route::get('user/{user}/statuses',  [UserStatusController::class, 'index'])->name('users.statuses.index');
 
 Auth::routes();
