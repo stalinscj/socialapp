@@ -25,8 +25,22 @@ class FriendshipFactory extends Factory
         return [
             'sender_id'    => User::factory(),
             'recipient_id' => User::factory(),
-            'accepted'     => false
+            'status'       => Friendship::STATUS_PENDING,
         ];
+    }
+
+    /**
+     * Indicate that the friendship's status should be pending.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function pending()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => Friendship::STATUS_PENDING,
+            ];
+        });
     }
 
     /**
@@ -38,8 +52,23 @@ class FriendshipFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'accepted' => true,
+                'status' => Friendship::STATUS_ACCEPTED,
             ];
         });
     }
+
+    /**
+     * Indicate that the status of the friendship should be denied.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function denied()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => Friendship::STATUS_DENIED,
+            ];
+        });
+    }
+    
 }

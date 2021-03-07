@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Friendship;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateFriendshipsTable extends Migration
 {
@@ -17,7 +18,7 @@ class CreateFriendshipsTable extends Migration
             $table->id();
             $table->foreignId('sender_id')->constrained('users');
             $table->foreignId('recipient_id')->constrained('users');
-            $table->boolean('accepted')->default(false);
+            $table->enum('status', Friendship::statusNames())->default(Friendship::STATUS_PENDING);
             $table->timestamps();
         });
     }

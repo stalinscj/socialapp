@@ -9,7 +9,7 @@ use App\Http\Controllers\StatusLikeController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\StatusCommentController;
-use App\Http\Controllers\RequestFriendshipController;
+use App\Http\Controllers\AcceptFriendshipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,8 +48,10 @@ Route::get('user/{user}/statuses',  [UserStatusController::class, 'index'])->nam
 
 // Friendship routes
 Route::post('friendships/{recipient}', [FriendshipController::class, 'store'])->name('friendships.store')->middleware('auth');
+Route::delete('friendships/{recipient}', [FriendshipController::class, 'destroy'])->name('friendships.destroy')->middleware('auth');
 
-// Request Friendship routes
-Route::post('request-friendships/{sender}', [RequestFriendshipController::class, 'store'])->name('request-friendships.store')->middleware('auth');
+// Accept Friendship routes
+Route::post('accept-friendships/{sender}', [AcceptFriendshipController::class, 'store'])->name('accept-friendships.store')->middleware('auth');
+Route::delete('accept-friendships/{sender}', [AcceptFriendshipController::class, 'destroy'])->name('accept-friendships.destroy')->middleware('auth');
 
 Auth::routes();

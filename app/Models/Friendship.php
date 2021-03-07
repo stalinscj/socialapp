@@ -10,6 +10,27 @@ class Friendship extends Model
     use HasFactory;
 
     /**
+     * Friendship status PENDING
+     * 
+     * @var string
+     */
+    const STATUS_PENDING  = 'PENDING';
+    
+    /**
+     * Friendship status ACCEPTED
+     * 
+     * @var string
+     */
+    const STATUS_ACCEPTED = 'ACCEPTED';
+    
+    /**
+     * Friendship status DENIED
+     * 
+     * @var string
+     */
+    const STATUS_DENIED   = 'DENIED';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -17,8 +38,23 @@ class Friendship extends Model
     protected $fillable = [
         'sender_id',
         'recipient_id',
-        'accepted',
+        'status',
     ];
+
+
+    /**
+     * Returns all availables status names 
+     *
+     * @return array
+     */
+    public static function statusNames()
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_ACCEPTED,
+            self::STATUS_DENIED,
+        ];
+    }
 
     /**
      * Get the sender that owns the friendship.
