@@ -44,6 +44,10 @@ class RegistrationTest extends TestCase
      */
     public function users_can_register()
     {
+        $this->get(route('register'))
+            ->assertSuccessful()
+            ->assertViewIs('auth.register');
+
         $this->register($this->validAttributes)
             ->assertRedirect('/');
 
