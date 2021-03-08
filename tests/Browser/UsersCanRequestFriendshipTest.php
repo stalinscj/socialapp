@@ -71,4 +71,24 @@ class UsersCanRequestFriendshipTest extends DuskTestCase
                 ->assertSee('Solicitud denegada');
         });
     }
+
+    /**
+     * @test
+     */
+    public function recipients_can_delete_friendship_requests()
+    {
+        $friendship = Friendship::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($friendship) {
+            $browser->loginAs($friendship->recipient)
+                ->visitRoute('accept-friendships.index')
+                ->assertSee($friendship->sender->name)
+                ->press('@delete-friendship')
+                ->waitForText('Solicitud eliminada')
+                ->assertSee('Solicitud eliminada')
+                ->visitRoute('accept-friendships.index')
+                ->assertDontSee('Solicitud eliminada')
+                ->assertDontSee($friendship->sender->name);
+        });
+    }
 }

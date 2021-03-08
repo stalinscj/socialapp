@@ -64,7 +64,7 @@ class CanRequestFriendshipTest extends TestCase
     /**
      * @test
      */
-    public function can_delete_friendship_request()
+    public function senders_can_delete_sent_friendship_request()
     {
         $friendship = Friendship::factory()->create();
 
@@ -74,7 +74,29 @@ class CanRequestFriendshipTest extends TestCase
             ->assertSuccessful();
         
         $response->assertJson([
-            'friendship_status' => '',
+            'friendship_status' => 'DELETED',
+        ]);
+
+        $this->assertDatabaseMissing('friendships', [
+            'sender_id'    => $friendship->sender->id,
+            'recipient_id' => $friendship->recipient->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function recipients_can_delete_recived_friendship_request()
+    {
+        $friendship = Friendship::factory()->create();
+
+        $this->signIn($friendship->recipient);
+
+        $response = $this->deleteJson(route('friendships.destroy', $friendship->sender))
+            ->assertSuccessful();
+        
+        $response->assertJson([
+            'friendship_status' => 'DELETED',
         ]);
 
         $this->assertDatabaseMissing('friendships', [
