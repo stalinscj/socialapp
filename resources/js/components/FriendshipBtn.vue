@@ -22,7 +22,7 @@ export default {
         toggleFriendshipStatus() {
             let method = this.getMethod()
 
-            axios.[method](`friendships/${this.recipient.name}`)
+            axios[method](`/friendships/${this.recipient.name}`)
                 .then(response => {
                     this.localFriendshipStatus = response.data.friendship_status
                 })

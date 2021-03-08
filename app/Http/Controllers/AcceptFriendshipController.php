@@ -9,6 +9,20 @@ use Illuminate\Http\Request;
 class AcceptFriendshipController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $friendshipRequests = Friendship::where('recipient_id', auth()->id())
+            ->with('sender')
+            ->get();
+
+        return view('friendships.index', compact('friendshipRequests'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
