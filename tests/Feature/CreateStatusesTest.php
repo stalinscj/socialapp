@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Status;
+use App\Events\StatusCreatedEvent;
+use Illuminate\Support\Facades\Event;
+use App\Http\Resources\StatusResource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateStatusesTest extends TestCase
@@ -25,11 +28,18 @@ class CreateStatusesTest extends TestCase
      */
     function an_authenticated_user_can_create_statuses()
     {
+        Event::fake([StatusCreatedEvent::class]);
+
         $user = $this->signIn();
 
         $attributes = Status::factory()->for($user)->raw();
 
         $response = $this->postJson(route('statuses.store'), $attributes);
+
+        Event::assertDispatched(StatusCreatedEvent::class, function ($event) {
+            return $event->status->id == Status::first()->id
+                && get_class($event->status) == StatusResource::class;
+        });
 
         $response->assertJson([
             'data' => [

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Status;
+use App\Events\StatusCreatedEvent;
 use App\Http\Requests\StatusRequest;
 use App\Http\Resources\StatusResource;
 
@@ -36,11 +37,12 @@ class StatusController extends Controller
      */
     public function store(StatusRequest $request)
     {
-        $status = Status::create([
-            'user_id' => auth()->id(),
-            'body'    => request('body')
-        ]);
+        $status = $request->user()->statuses()->create($request->validated());
 
-        return StatusResource::make($status);
+        $statusResource = StatusResource::make($status);
+    
+        StatusCreatedEvent::dispatch($statusResource);
+
+        return $statusResource;
     }
 }
