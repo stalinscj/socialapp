@@ -75,4 +75,24 @@ class Friendship extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Scope a query to only include friendship requests between users given.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\Http\Modules\User\User|string|id $sender
+     * @param  \App\Http\Modules\User\User|string|id $recipient
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBetweenUsers($query, $sender, $recipient)
+    {
+        $sender    = $sender    instanceof User ? $sender->id    : $sender;
+        $recipient = $recipient instanceof User ? $recipient->id : $recipient;
+        
+        $query->where([['sender_id', $sender],   ['recipient_id', $recipient]])
+            ->orWhere([['sender_id', $recipient],['recipient_id', $sender]]);
+
+        return $query;
+    }
 }

@@ -17,8 +17,8 @@ class UserController extends Controller
     {
         $friendshipStatus = Friendship::query()
             ->where([
-                'sender_id'    => auth()->id(),
-                'recipient_id' => $user->id,
+                ['sender_id',    auth()->id()],
+                ['recipient_id', $user->id]
             ])
             ->first()
             ->status ?? '';

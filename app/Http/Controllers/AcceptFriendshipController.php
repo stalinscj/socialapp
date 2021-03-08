@@ -33,8 +33,8 @@ class AcceptFriendshipController extends Controller
     {
         Friendship::query()
             ->where([
-                'sender_id'    => $sender->id,
-                'recipient_id' => auth()->id(),
+                ['sender_id',    $sender->id],
+                ['recipient_id', auth()->id()]
             ])
             ->update(['status' => Friendship::STATUS_ACCEPTED]);
 
@@ -52,8 +52,8 @@ class AcceptFriendshipController extends Controller
     {
         Friendship::query()
             ->where([
-                'sender_id'    => $sender->id,
-                'recipient_id' => auth()->id(),
+                ['sender_id',    $sender->id],
+                ['recipient_id', auth()->id()]
             ])
             ->update(['status' => Friendship::STATUS_DENIED]);
         
