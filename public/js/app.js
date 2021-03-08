@@ -1961,6 +1961,7 @@ __webpack_require__.r(__webpack_exports__);
     toggleFriendshipStatus: function toggleFriendshipStatus() {
       var _this = this;
 
+      this.redirectIfGuest();
       var method = this.getMethod();
       axios[method]("/friendships/".concat(this.recipient.name)).then(function (response) {
         _this.localFriendshipStatus = response.data.friendship_status;

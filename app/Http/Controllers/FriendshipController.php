@@ -17,6 +17,10 @@ class FriendshipController extends Controller
      */
     public function store(Request $request, User $recipient)
     {
+        if (auth()->id() == $recipient->id) {
+            abort(400);
+        }
+        
         $friendship = Friendship::firstOrCreate([
             'sender_id'    => auth()->id(),
             'recipient_id' => $recipient->id,
