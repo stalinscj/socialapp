@@ -31,7 +31,7 @@ export default {
                 })
         },
         getMethod() {
-            return this.localFriendshipStatus == 'PENDING'
+            return ['PENDING', 'ACCEPTED'].includes(this.localFriendshipStatus)
                 ? 'delete'
                 : 'post'
 
@@ -45,10 +45,10 @@ export default {
     computed: {
         getText() {
             const textSwitch = (status) => ({
-                'PENDING' : 'Cancelar Solicitud',
-                'ACCEPTED': 'Son Amigos',
-                'DENIED'  : 'Solicitud Rechazada'
-            })[status] || 'Solicitar Amistad'
+                'PENDING' : 'Cancelar solicitud',
+                'ACCEPTED': 'Eliminar de mis amigos',
+                'DENIED'  : 'Solicitud denegada'
+            })[status] || 'Solicitar amistad'
 
             return textSwitch(this.localFriendshipStatus)
         },

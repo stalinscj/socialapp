@@ -1969,7 +1969,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getMethod: function getMethod() {
-      return this.localFriendshipStatus == 'PENDING' ? 'delete' : 'post';
+      return ['PENDING', 'ACCEPTED'].includes(this.localFriendshipStatus) ? 'delete' : 'post';
     }
   },
   data: function data() {
@@ -1981,10 +1981,10 @@ __webpack_require__.r(__webpack_exports__);
     getText: function getText() {
       var textSwitch = function textSwitch(status) {
         return {
-          'PENDING': 'Cancelar Solicitud',
-          'ACCEPTED': 'Son Amigos',
-          'DENIED': 'Solicitud Rechazada'
-        }[status] || 'Solicitar Amistad';
+          'PENDING': 'Cancelar solicitud',
+          'ACCEPTED': 'Eliminar de mis amigos',
+          'DENIED': 'Solicitud denegada'
+        }[status] || 'Solicitar amistad';
       };
 
       return textSwitch(this.localFriendshipStatus);
@@ -38659,7 +38659,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n            Aceptar Solicitud\n        ")]
+            [_vm._v("\n            Aceptar solicitud\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -38672,7 +38672,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n            Denegar Solicitud\n        ")]
+            [_vm._v("\n            Denegar solicitud\n        ")]
           )
         ])
       : _vm.localFriendshipStatus == "ACCEPTED"

@@ -33,7 +33,7 @@ class FriendshipController extends Controller
      */
     public function destroy(User $user)
     {
-        $deleted = Friendship::query()
+        $frienship = Friendship::query()
             ->where([
                 'sender_id'    => auth()->id(),
                 'recipient_id' => $user->id,
@@ -42,8 +42,12 @@ class FriendshipController extends Controller
                 ['sender_id', $user->id],
                 ['recipient_id', auth()->id()]
             ])
-            ->delete();
+            ->first();
 
-        return response()->json(['friendship_status' => $deleted ? 'DELETED' : '']);
+        if ($frienship->status == Friendship::STATUS_DENIED) {
+            return response()->json(['friendship_status' => Friendship::STATUS_DENIED]);    
+        }
+
+        return response()->json(['friendship_status' => $frienship->delete() ? 'DELETED' : '']);
     }
 }

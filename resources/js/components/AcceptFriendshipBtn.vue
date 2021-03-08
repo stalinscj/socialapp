@@ -7,11 +7,11 @@
             <span v-text="sender.name"></span> te ha enviado una solicitus de amistad
 
             <button dusk="accept-friendship" @click="acceptFriendshipRequest()">
-                Aceptar Solicitud
+                Aceptar solicitud
             </button>
 
             <button dusk="deny-friendship" @click="denyFriendshipRequest()">
-                Denegar Solicitud
+                Denegar solicitud
             </button>
 
         </div>

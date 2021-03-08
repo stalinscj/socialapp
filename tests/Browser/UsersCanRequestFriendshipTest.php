@@ -24,13 +24,51 @@ class UsersCanRequestFriendshipTest extends DuskTestCase
             $browser->loginAs($sender)
                 ->visitRoute('users.show', $recipient)
                 ->press('@request-friendship')
-                ->waitForText('Cancelar Solicitud')
-                ->assertSee('Cancelar Solicitud')
+                ->waitForText('Cancelar solicitud')
+                ->assertSee('Cancelar solicitud')
                 ->visitRoute('users.show', $recipient)
-                ->assertSee('Cancelar Solicitud')
+                ->assertSee('Cancelar solicitud')
                 ->press('@request-friendship')
-                ->waitForText('Solicitar Amistad')
-                ->assertSee('Solicitar Amistad');
+                ->waitForText('Solicitar amistad')
+                ->assertSee('Solicitar amistad');
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function senders_can_delete_accepted_friendship_requests()
+    {
+        $friendship = Friendship::factory()->accepted()->create();
+
+        $this->browse(function (Browser $browser) use ($friendship) {
+            $browser->loginAs($friendship->sender)
+                ->visitRoute('users.show', $friendship->recipient)
+                ->assertSee('Eliminar de mis amigos')
+                ->press('@request-friendship')
+                ->waitForText('Solicitar amistad')
+                ->assertSee('Solicitar amistad')
+                ->visitRoute('users.show', $friendship->recipient)
+                ->assertSee('Solicitar amistad');
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function senders_cannot_delete_denied_friendship_requests()
+    {
+        $friendship = Friendship::factory()->denied()->create();
+
+        $this->browse(function (Browser $browser) use ($friendship) {
+            $browser->loginAs($friendship->sender)
+                ->visitRoute('users.show', $friendship->recipient)
+                ->assertSee('Solicitud denegada')
+                ->press('@request-friendship')
+                ->waitForText('Solicitud denegada')
+                ->assertSee('Solicitud denegada')
+                ->visitRoute('users.show', $friendship->recipient)
+                ->assertSee('Solicitud denegada');
         });
     }
 
