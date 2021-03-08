@@ -1862,6 +1862,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     sender: {
@@ -1878,7 +1885,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post("/accept-friendships/".concat(this.sender.name)).then(function (response) {
-        _this.localFriendshipStatus = 'ACCEPTED';
+        _this.localFriendshipStatus = response.data.friendship_status;
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
+    },
+    denyFriendshipRequest: function denyFriendshipRequest() {
+      var _this2 = this;
+
+      axios["delete"]("/accept-friendships/".concat(this.sender.name)).then(function (response) {
+        _this2.localFriendshipStatus = response.data.friendship_status;
       })["catch"](function (err) {
         console.log(err.response.data);
       });
@@ -38625,12 +38641,30 @@ var render = function() {
             }
           },
           [_vm._v("\n        Aceptar Solicitud\n    ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            attrs: { dusk: "deny-friendship" },
+            on: {
+              click: function($event) {
+                return _vm.denyFriendshipRequest()
+              }
+            }
+          },
+          [_vm._v("\n        Denegar Solicitud\n    ")]
         )
       ])
-    : _c("div", [
+    : _vm.localFriendshipStatus == "ACCEPTED"
+    ? _c("div", [
         _vm._v("\n    Tú y "),
         _c("span", { domProps: { textContent: _vm._s(_vm.sender.name) } }),
         _vm._v(" son amigos\n")
+      ])
+    : _c("div", [
+        _vm._v("\n    Solicitud denegada de "),
+        _c("span", { domProps: { textContent: _vm._s(_vm.sender.name) } })
       ])
 }
 var staticRenderFns = []

@@ -8,9 +8,16 @@
             Aceptar Solicitud
         </button>
         
+        <button dusk="deny-friendship" @click="denyFriendshipRequest()">
+            Denegar Solicitud
+        </button>
+        
+    </div>
+    <div v-else-if="localFriendshipStatus == 'ACCEPTED'">
+        Tú y <span v-text="sender.name"></span> son amigos
     </div>
     <div v-else>
-        Tú y <span v-text="sender.name"></span> son amigos
+        Solicitud denegada de <span v-text="sender.name"></span>
     </div>
     
 </template>
@@ -32,7 +39,17 @@ export default {
 
             axios.post(`/accept-friendships/${this.sender.name}`)
                 .then(response => {
-                    this.localFriendshipStatus = 'ACCEPTED'
+                    this.localFriendshipStatus = response.data.friendship_status
+                })
+                .catch(err => {
+                    console.log(err.response.data)
+                })
+        },
+        denyFriendshipRequest() {
+
+            axios.delete(`/accept-friendships/${this.sender.name}`)
+                .then(response => {
+                    this.localFriendshipStatus = response.data.friendship_status
                 })
                 .catch(err => {
                     console.log(err.response.data)

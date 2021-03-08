@@ -37,7 +37,7 @@ class UsersCanRequestFriendshipTest extends DuskTestCase
     /**
      * @test
      */
-    public function recipients_can_accept_and_deny_friendship_requests()
+    public function recipients_can_accept_friendship_requests()
     {
         $friendship = Friendship::factory()->create();
 
@@ -50,6 +50,25 @@ class UsersCanRequestFriendshipTest extends DuskTestCase
                 ->assertSee('son amigos')
                 ->visitRoute('accept-friendships.index')
                 ->assertSee('son amigos');
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function recipients_can_deny_friendship_requests()
+    {
+        $friendship = Friendship::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($friendship) {
+            $browser->loginAs($friendship->recipient)
+                ->visitRoute('accept-friendships.index')
+                ->assertSee($friendship->sender->name)
+                ->press('@deny-friendship')
+                ->waitForText('Solicitud denegada')
+                ->assertSee('Solicitud denegada')
+                ->visitRoute('accept-friendships.index')
+                ->assertSee('Solicitud denegada');
         });
     }
 }
