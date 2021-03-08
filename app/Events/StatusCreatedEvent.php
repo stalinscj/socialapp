@@ -30,6 +30,8 @@ class StatusCreatedEvent implements ShouldBroadcast
     public function __construct($status)
     {
         $this->status = $status;
+
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**
