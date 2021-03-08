@@ -33,6 +33,10 @@ export default {
         EventBus.$on('status-created', status => {
             this.statuses.unshift(status)
         });
+
+        Echo.channel('statuses').listen('StatusCreatedEvent', ({status}) => {
+            this.statuses.unshift(status)
+        })
     },
 }
 </script>
