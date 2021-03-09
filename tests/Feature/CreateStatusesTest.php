@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Event;
 use App\Http\Resources\StatusResource;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class CreateStatusesTest extends TestCase
 {
@@ -68,19 +67,15 @@ class CreateStatusesTest extends TestCase
 
         Event::assertDispatched(StatusCreatedEvent::class, function ($statusCredtedEvent) {
             
-            $this->assertInstanceOf(ShouldBroadcast::class, $statusCredtedEvent);
-
             $this->assertInstanceOf(StatusResource::class, $statusCredtedEvent->status);
             
-            $this->assertInstanceOf(Status::class, $statusCredtedEvent->status->resource);
-            
-            $this->assertEquals(Status::first()->id, $statusCredtedEvent->status->id);
-            
-            $this->assertEquals(
-                'socket-id', 
-                $statusCredtedEvent->socket, 
-                'The event '.get_class($statusCredtedEvent).' must call the method "dontBroadcastToCurrentUser" in the constructor.'
-            );
+            $this->assertTrue(Status::first()->is($statusCredtedEvent->status->resource));
+
+            $this->assertEventChannelType('public', $statusCredtedEvent);
+
+            $this->assertEventChannelName('statuses', $statusCredtedEvent);
+
+            $this->assertDontBroadcastToCurrentUser($statusCredtedEvent);
 
             return true;
         });

@@ -30,7 +30,7 @@ class RegistrationTest extends TestCase
     {
         parent::setUp();
 
-        $this->validAttributes = User::factory()
+        $this->validAttributes = User::factory() // Can generate first_name and last_name with 2 chars
             ->unverified()
             ->raw([
                 'remember_token'        => null,
@@ -48,13 +48,8 @@ class RegistrationTest extends TestCase
             ->assertSuccessful()
             ->assertViewIs('auth.register');
 
-        $response = $this->register($this->validAttributes);
-
-        if ($response->baseResponse->headers->get('location') == route('register')) {
-            $response->dumpSession();
-        }
-
-        $response->assertRedirect('/');
+        $this->register($this->validAttributes)
+            ->assertRedirect('/');
 
         $this->assertDatabaseHas('users', Arr::except($this->validAttributes, ['password', 'password_confirmation']));
 

@@ -11,7 +11,6 @@ use App\Http\Resources\CommentResource;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class CreateCommentTest extends TestCase
 {
@@ -74,19 +73,15 @@ class CreateCommentTest extends TestCase
 
         Event::assertDispatched(CommentCreatedEvent::class, function ($commentCredtedEvent) {
             
-            $this->assertInstanceOf(ShouldBroadcast::class, $commentCredtedEvent);
-
             $this->assertInstanceOf(CommentResource::class, $commentCredtedEvent->comment);
             
-            $this->assertInstanceOf(Comment::class, $commentCredtedEvent->comment->resource);
-            
-            $this->assertEquals(Comment::first()->id, $commentCredtedEvent->comment->id);
-            
-            $this->assertEquals(
-                'socket-id', 
-                $commentCredtedEvent->socket, 
-                'The event '.get_class($commentCredtedEvent).' must call the method "dontBroadcastToCurrentUser" in the constructor.'
-            );
+            $this->assertTrue(Comment::first()->is($commentCredtedEvent->comment->resource));
+
+            $this->assertEventChannelType('public', $commentCredtedEvent);
+
+            $this->assertEventChannelName("statuses.{$commentCredtedEvent->comment->status_id}.comments", $commentCredtedEvent);
+
+            $this->assertDontBroadcastToCurrentUser($commentCredtedEvent);
 
             return true;
         });
