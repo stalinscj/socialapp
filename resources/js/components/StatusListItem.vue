@@ -20,23 +20,13 @@
             </div>
         </div>
 
-        <div class="card-footer">
+        <div v-if="isAuthenticated || status.comments.length" class="card-footer pb-0">
+
             <comment-list :statusId="status.id" :comments="status.comments"></comment-list>
+            <comment-form :statusId="status.id"></comment-form>
 
-            <form @submit.prevent="addComment" v-if="isAuthenticated">
-                <div class="d-flex align-items-center">
-                    <img class="rounded shadow-sm mr-2" width="34px" :src="currentUser.avatar" :alt="currentUser.name">
-
-                    <div class="input-group">
-                        <textarea v-model="newComment" class="form-control border-0 shadow-sm" required
-                            name="comment" rows="1" placeholder="Escribe un comentario..."></textarea>
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" dusk="comment-btn">Enviar</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
+
     </div>
 </template>
 
@@ -44,33 +34,17 @@
 
 import LikeBtn from "./LikeBtn";
 import CommentList from "./CommentList";
+import CommentForm from "./CommentForm";
 
 
 export default {
-    components: { LikeBtn, CommentList },
+    components: { LikeBtn, CommentList, CommentForm },
     props: {
         status: {
             type: Object,
             required: true,
         }
     },
-    data() {
-        return {
-            newComment: '',
-        }
-    },
-    methods: {
-        addComment() {
-            axios.post(`/statuses/${this.status.id}/comments`, {body: this.newComment})
-                .then(response => {
-                    EventBus.$emit('comment-created', response.data.data)
-                    this.newComment = ''
-                })
-                .catch(err => { 
-                    console.log(err.response.data)
-                })
-        }
-    }
 }
 </script>
 

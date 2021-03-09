@@ -51,7 +51,7 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on('comment-created', comment => {
+        EventBus.$on(`statuses.${this.statusId}.comments`, comment => {
             this.comments.push(comment)
         });
 
