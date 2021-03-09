@@ -21,31 +21,7 @@
         </div>
 
         <div class="card-footer">
-            <div v-for="comment in comments" :key="comment.body" class="mb-3">
-                <div class="d-flex">
-                    <img class="rounded shadow-sm mr-2" height="34px" width="34px" :src="comment.user.avatar" :alt="comment.user.name">
-
-                    <div class="flex-grow-1">
-
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body p-2 text-secondary">
-                                <a :href="comment.user.link"><b v-text="comment.user.name"></b></a>
-                                {{ comment.body }}
-                            </div>
-                        </div>
-
-                        <like-btn class="comments-like-btn" dusk="comment-like-btn" :model="comment" :url="`/comments/${comment.id}/likes`"></like-btn>
-
-                        <small class="float-right badge badge-pill badge-primary py-1 px-2 mt-1" dusk="comment-likes-count">
-                            <i class="fa fa-thumbs-up"></i>
-                            {{ comment.likes_count }}
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
+            <comment-list :statusId="status.id" :comments="status.comments"></comment-list>
 
             <form @submit.prevent="addComment" v-if="isAuthenticated">
                 <div class="d-flex align-items-center">
@@ -67,9 +43,11 @@
 <script>
 
 import LikeBtn from "./LikeBtn";
+import CommentList from "./CommentList";
+
 
 export default {
-    components: { LikeBtn },
+    components: { LikeBtn, CommentList },
     props: {
         status: {
             type: Object,
@@ -79,20 +57,14 @@ export default {
     data() {
         return {
             newComment: '',
-            comments: this.status.comments,
         }
-    },
-    mounted() {
-        Echo.channel(`statuses.${this.status.id}.comments`).listen('CommentCreatedEvent', ({comment}) => {
-            this.comments.push(comment)
-        })
     },
     methods: {
         addComment() {
             axios.post(`/statuses/${this.status.id}/comments`, {body: this.newComment})
                 .then(response => {
+                    EventBus.$emit('comment-created', response.data.data)
                     this.newComment = ''
-                    this.comments.push(response.data.data)
                 })
                 .catch(err => { 
                     console.log(err.response.data)
