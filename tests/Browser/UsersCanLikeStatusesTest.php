@@ -60,6 +60,7 @@ class UsersCanLikeStatusesTest extends DuskTestCase
         $status = Status::factory()->create();
 
         $this->browse(function (Browser $browser1, Browser $browser2) use ($user, $status) {
+            
             $browser1->visit('/');
             
             $browser2->loginAs($user)
@@ -69,12 +70,14 @@ class UsersCanLikeStatusesTest extends DuskTestCase
                 ->press('@like-btn')
                 ->waitForText('TE GUSTA');
 
-            $browser1->assertSeeIn('@likes-count', 1);
+            $browser1->waitForTextIn('@likes-count', 1)
+                ->assertSeeIn('@likes-count', 1);
 
             $browser2->press('@like-btn')
                 ->waitForText('ME GUSTA');
 
-            $browser1->assertSeeIn('@likes-count', 0);
+            $browser1->waitForTextIn('@likes-count', 0)
+                ->assertSeeIn('@likes-count', 0);
         });
     }
 }
