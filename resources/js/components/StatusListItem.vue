@@ -46,9 +46,13 @@ export default {
         }
     },
     mounted() {
-        Echo.channel(`statuses.${this.status.id}.likes`).listen('ModelLikedEvent', event => {
-            this.status.likes_count++
-        })
+        Echo.channel(`statuses.${this.status.id}.likes`)
+            .listen('ModelLikedEvent', event => {
+                this.status.likes_count++
+            })
+            .listen('ModelUnlikedEvent', event => {
+                this.status.likes_count--
+            })
     },
 }
 </script>

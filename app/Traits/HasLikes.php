@@ -6,6 +6,7 @@ use App\Models\Like;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Events\ModelLikedEvent;
+use App\Events\ModelUnlikedEvent;
 
 trait HasLikes
 {
@@ -47,6 +48,8 @@ trait HasLikes
         $this->likes()
             ->where('user_id', $user->id)
             ->delete();
+
+        ModelUnlikedEvent::dispatch($this);
 
         return $this;
     }

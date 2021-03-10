@@ -15,8 +15,9 @@ class Like extends Model
      * @var array
      */
     protected $fillable = [
-        'status_id',
         'user_id',
+        'likeable_id',
+        'likeable_type',
     ];
 
     /**
@@ -27,6 +28,16 @@ class Like extends Model
     public function likeable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get the user that owns the like.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     
