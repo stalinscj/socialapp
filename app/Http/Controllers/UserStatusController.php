@@ -14,7 +14,7 @@ class UserStatusController extends Controller
      */
     public function index(User $user)
     {
-      $statuses = $user->statuses()
+        $statuses = $user->statuses()
             ->with('user')
             ->with(['comments' => function ($query) {
                 $query->with('user')->withCount('likes')->addIsLiked(auth()->id());
@@ -23,8 +23,7 @@ class UserStatusController extends Controller
             ->addIsLiked(auth()->id())
             ->latest()
             ->paginate();
-        
-      return StatusResource::collection($statuses);
+        return StatusResource::collection($statuses);
     }
-    
+
 }

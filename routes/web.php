@@ -8,6 +8,7 @@ use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\StatusLikeController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\CommentLikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StatusCommentController;
 use App\Http\Controllers\AcceptFriendshipController;
 
@@ -55,5 +56,8 @@ Route::delete('friendships/{user}',    [FriendshipController::class, 'destroy'])
 Route::get('friends/requests',               [AcceptFriendshipController::class, 'index']  )->name('accept-friendships.index')->middleware('auth');
 Route::post('accept-friendships/{sender}',   [AcceptFriendshipController::class, 'store']  )->name('accept-friendships.store')->middleware('auth');
 Route::delete('accept-friendships/{sender}', [AcceptFriendshipController::class, 'destroy'])->name('accept-friendships.destroy')->middleware('auth');
+
+// Notifications routes
+Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index')->middleware('auth');
 
 Auth::routes();
