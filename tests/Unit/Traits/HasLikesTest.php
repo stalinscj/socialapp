@@ -29,6 +29,8 @@ class HasLikesTest extends TestCase
         Schema::create('model_with_likes', function ($table) {
             $table->id();
         });
+
+        Event::fake([ModelLikedEvent::class, ModelUnlikedEvent::class]);
     }
 
     /**
@@ -48,8 +50,6 @@ class HasLikesTest extends TestCase
      */
     public function a_model_with_likes_can_be_liked_and_unliked()
     {
-        Event::fake([ModelLikedEvent::class]);
-
         $user = $this->signIn();
 
         $modelWithLikes = ModelWithLikes::create();
@@ -68,8 +68,6 @@ class HasLikesTest extends TestCase
      */
     public function a_model_with_likes_can_be_liked_once()
     {
-        Event::fake([ModelLikedEvent::class]);
-
         $user = $this->signIn();
 
         $modelWithLikes = ModelWithLikes::create();
@@ -88,8 +86,6 @@ class HasLikesTest extends TestCase
      */
     public function a_model_with_likes_knows_if_has_been_liked()
     {
-        Event::fake([ModelLikedEvent::class]);
-        
         $user = $this->signIn();
         
         $modelWithLikes = ModelWithLikes::create();
@@ -120,7 +116,6 @@ class HasLikesTest extends TestCase
      */
     function an_event_is_fired_when_a_model_is_liked()
     {
-        Event::fake([ModelLikedEvent::class]);
         Broadcast::shouldReceive('socket')->andReturn('socket-id');
 
         $user = $this->signIn();
@@ -148,7 +143,6 @@ class HasLikesTest extends TestCase
      */
     function an_event_is_fired_when_a_model_is_unliked()
     {
-        Event::fake([ModelUnlikedEvent::class]);
         Broadcast::shouldReceive('socket')->andReturn('socket-id');
 
         $user = $this->signIn();
