@@ -26,8 +26,9 @@ class SendNewLikeNotificationListener
      * @param \App\Events\ModelLikedEvent $modelLikedEvent
      * @return void
      */
-    public function handle(ModelLikedEvent $modelLikedEvent)
+    public function handle(ModelLikedEvent $event)
     {
-        $modelLikedEvent->model->user->notify(new NewLikeNotification);
+        $event->model->user
+            ->notify(new NewLikeNotification($event->model, $event->likeSender));
     }
 }

@@ -32,7 +32,7 @@ trait HasLikes
             'user_id' => $user->id
         ]);
 
-        ModelLikedEvent::dispatch($this);
+        ModelLikedEvent::dispatch($this, $user);
 
         return $this;
     }

@@ -22,14 +22,23 @@ class ModelLikedEvent implements ShouldBroadcast
     public $model;
 
     /**
+     * User who likes the model
+     *
+     * @var \App\Models\User
+     */
+    public $likeSender;
+
+    /**
      * Create a new event instance.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \App\Models\User $likeSender
      * @return void
      */
-    public function __construct($model)
+    public function __construct($model, $likeSender)
     {
-        $this->model = $model;
+        $this->model      = $model;
+        $this->likeSender = $likeSender;
 
         $this->dontBroadcastToCurrentUser();
     }

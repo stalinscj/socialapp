@@ -3,6 +3,7 @@
 namespace Tests\Unit\Listeners;
 
 use Tests\TestCase;
+use App\Models\Like;
 use App\Models\Status;
 use App\Events\ModelLikedEvent;
 use App\Notifications\NewLikeNotification;
@@ -22,9 +23,20 @@ class SendNewLikeNotificationListenerTest extends TestCase
 
         $status = Status::factory()->create();
 
-        ModelLikedEvent::dispatch($status);
+        $like = Like::factory()->for($status, 'likeable')->create();
 
-        Notification::assertSentTo($status->user, NewLikeNotification::class);
+        ModelLikedEvent::dispatch($status, $like->user);
+
+        Notification::assertSentTo(
+            $status->user, 
+            NewLikeNotification::class, 
+            function ($newLikeNotification, $channels) use ($status, $like) {
+                $this->assertTrue($newLikeNotification->model->is($status));
+                $this->assertTrue($newLikeNotification->likeSender->is($like->user));
+                
+                return true;
+            }
+        );
         
     }
 }

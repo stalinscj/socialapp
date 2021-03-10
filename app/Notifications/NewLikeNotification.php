@@ -12,13 +12,30 @@ class NewLikeNotification extends Notification
     use Queueable;
 
     /**
+     * Model liked
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
+    public $model;
+
+    /**
+     * User who likes the model
+     *
+     * @var \App\Models\User
+     */
+    public $likeSender;
+
+    /**
      * Create a new notification instance.
      *
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \App\Models\User $likeSender
      * @return void
      */
-    public function __construct()
+    public function __construct($model, $likeSender)
     {
-        //
+        $this->model      = $model;
+        $this->likeSender = $likeSender;
     }
 
     /**
