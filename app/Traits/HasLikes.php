@@ -4,6 +4,8 @@ namespace App\Traits;
 
 use App\Models\Like;
 use App\Models\User;
+use Illuminate\Support\Str;
+use App\Events\ModelLikedEvent;
 
 trait HasLikes
 {
@@ -28,6 +30,8 @@ trait HasLikes
         $this->likes()->firstOrCreate([
             'user_id' => $user->id
         ]);
+
+        ModelLikedEvent::dispatch($this);
 
         return $this;
     }
@@ -93,5 +97,21 @@ trait HasLikes
         $query->selectSub($subQuery, 'is_liked');
 
         return $query;
+    }
+
+    /**
+     * Returns the event channel name for the model
+     *
+     * @return void
+     */
+    public function getEventChannelName()
+    {
+        $modelName = class_basename($this);
+
+        $snake = Str::snake(Str::plural($modelName), '-');
+
+        $eventChannelName = "$snake.{$this->getKey()}.likes";
+        
+        return $eventChannelName;
     }
 }

@@ -5,12 +5,30 @@ namespace Tests\Unit\Traits;
 use Tests\TestCase;
 use App\Models\Like;
 use App\Traits\HasLikes;
+use App\Events\ModelLikedEvent;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HasLikesTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Schema::create('model_with_likes', function ($table) {
+            $table->id();
+        });
+    }
 
     /**
      * @test
@@ -29,9 +47,11 @@ class HasLikesTest extends TestCase
      */
     public function a_model_with_likes_can_be_liked_and_unliked()
     {
+        Event::fake([ModelLikedEvent::class]);
+
         $user = $this->signIn();
 
-        $modelWithLikes = new ModelWithLikes(['id' => 1]);
+        $modelWithLikes = ModelWithLikes::create();
 
         $modelWithLikes->like($user);
 
@@ -47,9 +67,11 @@ class HasLikesTest extends TestCase
      */
     public function a_model_with_likes_can_be_liked_once()
     {
+        Event::fake([ModelLikedEvent::class]);
+
         $user = $this->signIn();
 
-        $modelWithLikes = new ModelWithLikes(['id' => 1]);
+        $modelWithLikes = ModelWithLikes::create();
 
         $modelWithLikes->like($user);
 
@@ -65,9 +87,11 @@ class HasLikesTest extends TestCase
      */
     public function a_model_with_likes_knows_if_has_been_liked()
     {
+        Event::fake([ModelLikedEvent::class]);
+        
         $user = $this->signIn();
         
-        $modelWithLikes = new ModelWithLikes(['id' => 1]);
+        $modelWithLikes = ModelWithLikes::create();
 
         $this->assertFalse($modelWithLikes->isLiked($user));
 
@@ -90,6 +114,44 @@ class HasLikesTest extends TestCase
         $this->assertEquals(2, $modelWithLikes->likesCount());
     }
 
+    /**
+     * @test
+     */
+    function an_event_is_fired_when_a_model_is_liked()
+    {
+        Event::fake([ModelLikedEvent::class]);
+        Broadcast::shouldReceive('socket')->andReturn('socket-id');
+
+        $user = $this->signIn();
+
+        $modelWithLikes = new ModelWithLikes(['id' => 1]);
+
+        $modelWithLikes->like($user);
+
+        Event::assertDispatched(ModelLikedEvent::class, function ($modelLikedEvent) {
+
+            $this->assertInstanceOf(Model::class, $modelLikedEvent->model);
+
+            $this->assertEventChannelType('public', $modelLikedEvent);
+
+            $this->assertEventChannelName($modelLikedEvent->model->getEventChannelName(), $modelLikedEvent);
+
+            $this->assertDontBroadcastToCurrentUser($modelLikedEvent);
+
+            return true;
+        });
+    }
+
+    /**
+     * @test
+     */
+    function can_get_the_event_channel_name()
+    {
+        $modelWithLikes = new ModelWithLikes(['id' => 1]);
+
+        $this->assertEquals('model-with-likes.1.likes', $modelWithLikes->getEventChannelName());
+    }
+
 }
 
 class ModelWithLikes extends Model
@@ -104,4 +166,11 @@ class ModelWithLikes extends Model
     protected $fillable = [
         'id',
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }
