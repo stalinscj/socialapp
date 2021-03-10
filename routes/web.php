@@ -25,8 +25,9 @@ use App\Http\Controllers\AcceptFriendshipController;
 Route::view('/', 'welcome')->name('home');
 
 // Statuses routes
-Route::get('statuses',  [StatusController::class, 'index'])->name('statuses.index');
-Route::post('statuses', [StatusController::class, 'store'])->name('statuses.store')->middleware('auth');
+Route::get('statuses',          [StatusController::class, 'index'])->name('statuses.index');
+Route::get('statuses/{status}', [StatusController::class, 'show'])->name('statuses.show');
+Route::post('statuses',         [StatusController::class, 'store'])->name('statuses.store')->middleware('auth');
 
 
 // Statuses Like routes

@@ -19,6 +19,7 @@ class CanSeeProfilesTest extends TestCase
         $user = User::factory()->create();
 
         $this->get(route('users.show', $user))
+            ->assertViewIs('users.show')
             ->assertSee($user->name);
     }
 }

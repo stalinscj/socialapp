@@ -29,6 +29,17 @@ class StatusController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Status  $status
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Status $status)
+    {
+        return view('statuses.show', ['status' => StatusResource::make($status)]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StatusRequest  $request

@@ -40,4 +40,14 @@ class Status extends Model
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Returns the status link
+     *
+     * @return void
+     */
+    public function getPath()
+    {
+        return route('statuses.show', $this->id);
+    }
+
 }
