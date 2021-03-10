@@ -2368,6 +2368,13 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       required: true
     }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    Echo.channel("statuses.".concat(this.status.id, ".likes")).listen('ModelLikedEvent', function (event) {
+      _this.status.likes_count++;
+    });
   }
 });
 

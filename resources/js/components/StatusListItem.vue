@@ -45,6 +45,11 @@ export default {
             required: true,
         }
     },
+    mounted() {
+        Echo.channel(`statuses.${this.status.id}.likes`).listen('ModelLikedEvent', event => {
+            this.status.likes_count++
+        })
+    },
 }
 </script>
 
