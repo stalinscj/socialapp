@@ -32,7 +32,7 @@ class UsersCanCreateStatusesTest extends DuskTestCase
     /**
      * @test
      */
-    public function users_can_see_statuses_in_real_tiem()
+    public function users_can_see_statuses_in_real_time()
     {
         $users = User::factory(2)->create();
 

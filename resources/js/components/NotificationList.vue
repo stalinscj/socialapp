@@ -2,7 +2,7 @@
     <li class="nav-item dropdown">
         <a dusk="notifications" class="nav-link dropdown-toggle" :class="unreadCount ? 'text-primary font-weight-bold' : ''" 
             href="#" id="dropdownNotifications" data-toggle="dropdown"  role="button" aria-haspopup="true" aria-expanded="false" >
-            <slot></slot> {{ unreadCount ? unreadCount : '' }}
+            <slot></slot> <span dusk="notifications-count" v-text="unreadCount ? unreadCount : ''"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownNotifications">
             <div class="dropdown-header text-center">Notificaciones</div>

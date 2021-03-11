@@ -38,9 +38,9 @@ class UserTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $this->assertEquals('img/default-avatar.jpg', $user->avatar());
+        $this->assertEquals('/img/default-avatar.jpg', $user->avatar());
 
-        $this->assertEquals('img/default-avatar.jpg', $user->avatar);
+        $this->assertEquals('/img/default-avatar.jpg', $user->avatar);
     }
 
     /**

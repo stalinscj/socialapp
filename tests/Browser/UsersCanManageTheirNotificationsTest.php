@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\User;
 use App\Models\Status;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -46,4 +47,28 @@ class UsersCanGetTheirNotificationsTest extends DuskTestCase
                ->assertMissing("@mark-as-unread-{$notification->id}");
        });
     }
+
+    /**
+     * @test
+     */
+    public function users_can_see_their_notifications_in_real_time()
+    {
+        $user = User::factory()->create();
+        $status = Status::factory()->create();
+
+        $this->browse(function (Browser $browser1, Browser $browser2) use ($user, $status) {
+            $browser1->loginAs($status->user)
+                ->visit('/');
+
+            $browser2->loginAs($user)
+                ->visit('/')
+                ->waitForText($status->body)
+                ->press('@like-btn')
+                ->waitForText('TE GUSTA');
+
+            $browser1->waitForTextIn('@notifications-count', 1)
+                ->assertSeeIn('@notifications-count', 1);
+        });
+    }
+
 }
