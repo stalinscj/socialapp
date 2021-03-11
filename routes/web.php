@@ -11,6 +11,7 @@ use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StatusCommentController;
 use App\Http\Controllers\AcceptFriendshipController;
+use App\Http\Controllers\ReadNotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,5 +60,9 @@ Route::delete('accept-friendships/{sender}', [AcceptFriendshipController::class,
 
 // Notifications routes
 Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index')->middleware('auth');
+
+// Read Notifications routes
+Route::post('read-notifications/{notification}', [ReadNotificationController::class, 'store'])->name('read-notifications.store')->middleware('auth');
+Route::delete('read-notifications/{notification}', [ReadNotificationController::class, 'destroy'])->name('read-notifications.destroy')->middleware('auth');
 
 Auth::routes();

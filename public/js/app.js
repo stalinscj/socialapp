@@ -2350,7 +2350,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _StatusListItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StatusListItem */ "./resources/js/components/StatusListItem.vue");
 //
 //
 //
@@ -2359,11 +2358,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    StatusListItem: _StatusListItem__WEBPACK_IMPORTED_MODULE_0__.default
-  },
   props: {
     url: {
       type: String,
@@ -2501,6 +2496,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 window.EventBus = new Vue();
 Vue.component('status-form', __webpack_require__(/*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue").default);
 Vue.component('status-list', __webpack_require__(/*! ./components/StatusList.vue */ "./resources/js/components/StatusList.vue").default);
+Vue.component('status-list-item', __webpack_require__(/*! ./components/StatusListItem.vue */ "./resources/js/components/StatusListItem.vue").default);
 Vue.component('friendship-btn', __webpack_require__(/*! ./components/FriendshipBtn.vue */ "./resources/js/components/FriendshipBtn.vue").default);
 Vue.component('accept-friendship-btn', __webpack_require__(/*! ./components/AcceptFriendshipBtn.vue */ "./resources/js/components/AcceptFriendshipBtn.vue").default);
 Vue.component('notification-list', __webpack_require__(/*! ./components/NotificationList.vue */ "./resources/js/components/NotificationList.vue").default);

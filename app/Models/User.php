@@ -87,7 +87,7 @@ class User extends Authenticatable
      */
     public function avatar()
     {
-        return 'img/default-avatar.jpg';
+        return '/img/default-avatar.jpg';
     }
 
     /**
