@@ -41,4 +41,14 @@ class Comment extends Model
         return $this->belongsTo(Status::class);
     }
 
+    /**
+     * Returns the comment's link
+     *
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return '';
+    }
+
 }

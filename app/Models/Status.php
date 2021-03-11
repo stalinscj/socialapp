@@ -43,9 +43,9 @@ class Status extends Model
     /**
      * Returns the status link
      *
-     * @return void
+     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return route('statuses.show', $this->id);
     }

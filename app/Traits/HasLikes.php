@@ -117,4 +117,12 @@ trait HasLikes
         
         return $eventChannelName;
     }
+
+    /**
+     * Returns the model's link
+     *
+     * @return string
+     */
+    abstract public function getPath() : string;
+    
 }

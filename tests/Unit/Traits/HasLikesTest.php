@@ -203,4 +203,14 @@ class ModelWithLikes extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Returns the model with likes link
+     *
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return '';
+    }
 }
