@@ -15,7 +15,7 @@ class UsersCanGetTheirNotificationsTest extends DuskTestCase
     /**
      * @test
      */
-    public function users_can_get_their_notifications_in_the_navbar()
+    public function users_can_manage_their_notifications_in_the_navbar()
     {
        $status = Status::factory()->create();
 
@@ -33,7 +33,17 @@ class UsersCanGetTheirNotificationsTest extends DuskTestCase
                ->click("@notifications")
                ->assertSee('Haz recibido una notificación')
                ->click("@{$notification->id}")
-               ->assertUrlIs($status->getPath());
+               ->assertUrlIs($status->getPath())
+
+               ->click("@notifications")
+               ->waitFor("@mark-as-read-{$notification->id}")
+               ->press("@mark-as-read-{$notification->id}")
+               ->waitFor("@mark-as-unread-{$notification->id}")
+               ->assertMissing("@mark-as-read-{$notification->id}")
+
+               ->press("@mark-as-unread-{$notification->id}")
+               ->waitFor("@mark-as-read-{$notification->id}")
+               ->assertMissing("@mark-as-unread-{$notification->id}");
        });
     }
 }
