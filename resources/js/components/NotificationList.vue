@@ -37,6 +37,21 @@ export default {
                 console.log(err.response.data)
             });
 
+        if (this.isAuthenticated) {
+            
+            Echo.private(`App.Models.User.${this.currentUser.id}`)
+                .notification(notification => {
+                    this.unreadCount++
+                    this.notifications.push({
+                        id: notification.id,
+                        data: {
+                            link: notification.link,
+                            message: notification.message,
+                        }
+                    })
+                })
+        }
+
         EventBus.$on('notification-read', () => {
             this.unreadCount--
         });

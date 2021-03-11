@@ -2274,7 +2274,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       notifications: [],
-      unreadCount: ''
+      unreadCount: 0
     };
   },
   created: function created() {
@@ -2287,6 +2287,21 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (err) {
       console.log(err.response.data);
     });
+
+    if (this.isAuthenticated) {
+      Echo["private"]("App.Models.User.".concat(this.currentUser.id)).notification(function (notification) {
+        _this.unreadCount++;
+
+        _this.notifications.push({
+          id: notification.id,
+          data: {
+            link: notification.link,
+            message: notification.message
+          }
+        });
+      });
+    }
+
     EventBus.$on('notification-read', function () {
       _this.unreadCount--;
     });
@@ -2298,7 +2313,7 @@ __webpack_require__.r(__webpack_exports__);
     updateUnreadCount: function updateUnreadCount() {
       this.unreadCount = this.notifications.filter(function (notification) {
         return !notification.read_at;
-      }).length || '';
+      }).length;
     }
   }
 });
@@ -45934,7 +45949,13 @@ var render = function() {
       },
       [
         _vm._t("default"),
-        _vm._v(" " + _vm._s(_vm.unreadCount ? _vm.unreadCount : "") + "\n    ")
+        _vm._v(" "),
+        _c("span", {
+          attrs: { dusk: "notifications-count" },
+          domProps: {
+            textContent: _vm._s(_vm.unreadCount ? _vm.unreadCount : "")
+          }
+        })
       ],
       2
     ),
