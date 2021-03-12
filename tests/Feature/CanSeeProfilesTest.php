@@ -14,7 +14,7 @@ class CanSeeProfilesTest extends TestCase
     /**
      * @test
      */
-    public function can_see_profiles_test()
+    public function can_see_profiles()
     {
         $user = User::factory()->create();
 

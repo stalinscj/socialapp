@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\StatusLikeController;
@@ -48,6 +49,9 @@ Route::get('@{user}', [UserController::class, 'show'])->name('users.show');
 
 // Users Statuses routes
 Route::get('user/{user}/statuses',  [UserStatusController::class, 'index'])->name('users.statuses.index');
+
+// Friends routes
+Route::get('friends', [FriendController::class, 'index'])->name('friends.index')->middleware('auth');
 
 // Friendship routes
 Route::post('friendships/{recipient}', [FriendshipController::class, 'store']  )->name('friendships.store')->middleware('auth');

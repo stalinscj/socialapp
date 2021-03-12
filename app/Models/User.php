@@ -93,7 +93,7 @@ class User extends Authenticatable
     /**
      * Get the statuses for the user.
      * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function statuses()
     {
@@ -103,7 +103,7 @@ class User extends Authenticatable
     /**
      * Get the friendship requests that the user has received
      * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function friendshipRequestsReceived()
     {
@@ -113,11 +113,36 @@ class User extends Authenticatable
     /**
      * Get the friendship requests that the user has sent
      * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function friendshipRequestsSent()
     {
         return $this->hasMany(Friendship::class, 'sender_id');
+    }
+
+    /**
+     * Get the user'sf friends
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function friends()
+    {
+        $friends = User::select('*')
+            ->selectRaw("'ACCEPTED' AS friendship_status")
+            ->whereIn('id', 
+                $this->friendshipRequestsSent()
+                    ->select('recipient_id')
+                    ->where('status', Friendship::STATUS_ACCEPTED)
+            )
+            ->orWhereIn('id', 
+                $this->friendshipRequestsReceived()
+                    ->select('sender_id')
+                    ->where('status', Friendship::STATUS_ACCEPTED)
+            )
+            
+        ;
+
+        return $friends;
     }
 
     /**

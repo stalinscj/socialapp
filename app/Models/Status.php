@@ -33,7 +33,7 @@ class Status extends Model
     /**
      * Get the comments for the status.
      * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
     {

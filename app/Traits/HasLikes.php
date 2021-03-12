@@ -13,7 +13,7 @@ trait HasLikes
     /**
      * Get the likes for the model.
      * 
-     * @return @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function likes()
     {
