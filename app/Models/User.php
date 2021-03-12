@@ -100,4 +100,41 @@ class User extends Authenticatable
         return $this->hasMany(Status::class);
     }
 
+
+    /**
+     * Create or get a friend request to recipient.
+     *
+     * @param \App\Models\User $recipient
+     * @return \App\Models\Friendship
+     */
+    public function sendFriendRequestTo($recipient)
+    {
+        $friendship = Friendship::firstOrCreate([
+            'sender_id'    => $this->id,
+            'recipient_id' => $recipient->id,
+        ])->fresh();
+
+        return $friendship;
+    }
+
+    /**
+     * Accept a friend request from sender.
+     *
+     * @param \App\Models\User $sender
+     * @return \App\Models\Friendship
+     */
+    public function acceptFriendRequestFrom($sender)
+    {
+        $friendship = Friendship::query()
+            ->where([
+                ['sender_id',    $sender->id],
+                ['recipient_id', $this->id]
+            ])
+            ->first();
+            
+        $friendship->update(['status' => Friendship::STATUS_ACCEPTED]);
+
+        return $friendship;
+    }
+
 }

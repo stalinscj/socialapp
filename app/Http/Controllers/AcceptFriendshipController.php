@@ -31,14 +31,9 @@ class AcceptFriendshipController extends Controller
      */
     public function store(Request $request, User $sender)
     {
-        Friendship::query()
-            ->where([
-                ['sender_id',    $sender->id],
-                ['recipient_id', auth()->id()]
-            ])
-            ->update(['status' => Friendship::STATUS_ACCEPTED]);
+        $friendship = $request->user()->acceptFriendRequestFrom($sender);
 
-        return response()->json(['friendship_status' => Friendship::STATUS_ACCEPTED]);
+        return response()->json(['friendship_status' => $friendship->status]);
     }
 
     /**

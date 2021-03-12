@@ -21,10 +21,7 @@ class FriendshipController extends Controller
             abort(400);
         }
         
-        $friendship = Friendship::firstOrCreate([
-            'sender_id'    => auth()->id(),
-            'recipient_id' => $recipient->id,
-        ])->fresh();
+        $friendship = $request->user()->sendFriendRequestTo($recipient);
 
         return response()->json(['friendship_status' => $friendship->status]);
     }
