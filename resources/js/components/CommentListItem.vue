@@ -1,6 +1,6 @@
 <template>
             
-    <div class="d-flex">
+    <div :class="highlight" :id=" `comment-${this.comment.id}`" class="d-flex">
         <img class="rounded shadow-sm mr-2" height="34px" width="34px" :src="comment.user.avatar" :alt="comment.user.name">
 
         <div class="flex-grow-1">
@@ -51,9 +51,20 @@ export default {
                 this.comment.likes_count--
             })
     },
+    computed: {
+        highlight() {
+                return window.location.hash == `#comment-${this.comment.id}`
+                    ? 'highlight'
+                    : ''
+        }
+    }
 }
 </script>
 
 <style scoped>
-    
+    .highlight {
+        background: #ececec;
+        padding: 10px;
+        border-left: 4px solid #ff8d00;
+    }
 </style>

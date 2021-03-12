@@ -48,7 +48,7 @@ class Comment extends Model
      */
     public function getPath(): string
     {
-        return '';
+        return route('statuses.show', $this->status) . '#comment-' . $this->id;
     }
 
 }
