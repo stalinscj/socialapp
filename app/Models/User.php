@@ -100,6 +100,25 @@ class User extends Authenticatable
         return $this->hasMany(Status::class);
     }
 
+    /**
+     * Get the friendship requests that the user has received
+     * 
+     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function friendshipRequestsReceived()
+    {
+        return $this->hasMany(Friendship::class, 'recipient_id');
+    }
+
+    /**
+     * Get the friendship requests that the user has sent
+     * 
+     * @return @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function friendshipRequestsSent()
+    {
+        return $this->hasMany(Friendship::class, 'sender_id');
+    }
 
     /**
      * Create or get a friend request to recipient.
@@ -109,10 +128,8 @@ class User extends Authenticatable
      */
     public function sendFriendRequestTo($recipient)
     {
-        $friendship = Friendship::firstOrCreate([
-            'sender_id'    => $this->id,
-            'recipient_id' => $recipient->id,
-        ])->fresh();
+        $friendship = $this->friendshipRequestsSent()
+            ->firstOrCreate(['recipient_id' => $recipient->id])->fresh();
 
         return $friendship;
     }
@@ -125,14 +142,28 @@ class User extends Authenticatable
      */
     public function acceptFriendRequestFrom($sender)
     {
-        $friendship = Friendship::query()
-            ->where([
-                ['sender_id',    $sender->id],
-                ['recipient_id', $this->id]
-            ])
+        $friendship = $this->friendshipRequestsReceived()
+            ->where('sender_id', $sender->id)
             ->first();
             
         $friendship->update(['status' => Friendship::STATUS_ACCEPTED]);
+
+        return $friendship;
+    }
+
+    /**
+     * Deny a friend request from sender.
+     *
+     * @param \App\Models\User $sender
+     * @return \App\Models\Friendship
+     */
+    public function denyFriendRequestFrom($sender)
+    {
+        $friendship = $this->friendshipRequestsReceived()
+            ->where('sender_id', $sender->id)
+            ->first();
+            
+        $friendship->update(['status' => Friendship::STATUS_DENIED]);
 
         return $friendship;
     }

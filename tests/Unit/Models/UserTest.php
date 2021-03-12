@@ -84,4 +84,39 @@ class UserTest extends TestCase
         $this->assertEquals(Friendship::STATUS_ACCEPTED, $friendship->status);
     }
 
+    /**
+     * @test
+     */
+    public function an_user_can_deny_friend_requests()
+    {
+        $sender    = User::factory()->create();
+        $recipient = User::factory()->create();
+
+        $sender->sendFriendRequestTo($recipient);
+
+        $friendship = $recipient->denyFriendRequestFrom($sender);
+
+        $this->assertEquals(Friendship::STATUS_DENIED, $friendship->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function an_user_get_all_his_friend_requests()
+    {
+        $sender    = User::factory()->create();
+        $recipient = User::factory()->create();
+
+        $sender->sendFriendRequestTo($recipient);
+
+        $this->assertCount(1, $recipient->friendshipRequestsReceived);
+        $this->assertCount(0, $sender->friendshipRequestsReceived);
+        $this->assertInstanceOf(Friendship::class, $recipient->friendshipRequestsReceived->first());
+        
+        $this->assertCount(1, $sender->friendshipRequestsSent);
+        $this->assertCount(0, $recipient->friendshipRequestsSent);
+        $this->assertInstanceOf(Friendship::class, $sender->friendshipRequestsSent->first());
+    }
+
 }
