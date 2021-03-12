@@ -5,9 +5,10 @@ namespace Tests\Unit\Listeners;
 use Tests\TestCase;
 use App\Models\Comment;
 use App\Events\CommentCreatedEvent;
-use App\Notifications\NewCommentNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewCommentNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class SendNewCommentNotificationListenerTest extends TestCase
 {
@@ -29,7 +30,9 @@ class SendNewCommentNotificationListenerTest extends TestCase
             NewCommentNotification::class, 
             function ($newCommentNotification, $channels) use ($comment) {
                 $this->assertContains('database', $channels);
+                $this->assertContains('broadcast', $channels);
                 $this->assertTrue($newCommentNotification->comment->is($comment));
+                $this->assertInstanceOf(BroadcastMessage::class, $newCommentNotification->toBroadcast($comment->status->user));
                 
                 return true;
             }

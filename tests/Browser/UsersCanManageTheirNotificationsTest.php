@@ -51,7 +51,7 @@ class UsersCanGetTheirNotificationsTest extends DuskTestCase
     /**
      * @test
      */
-    public function users_can_see_their_notifications_in_real_time()
+    public function users_can_see_their_like_notifications_in_real_time()
     {
         $user = User::factory()->create();
         $status = Status::factory()->create();
@@ -65,6 +65,29 @@ class UsersCanGetTheirNotificationsTest extends DuskTestCase
                 ->waitForText($status->body)
                 ->press('@like-btn')
                 ->waitForText('TE GUSTA');
+
+            $browser1->waitForTextIn('@notifications-count', 1)
+                ->assertSeeIn('@notifications-count', 1);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function users_can_see_their_comment_notifications_in_real_time()
+    {
+        $user = User::factory()->create();
+        $status = Status::factory()->create();
+
+        $this->browse(function (Browser $browser1, Browser $browser2) use ($user, $status) {
+            $browser1->loginAs($status->user)
+                ->visit('/');
+
+            $browser2->loginAs($user)
+                ->visit('/')
+                ->waitForText($status->body)
+                ->type('comment', 'Mi comentario')
+                ->press('@comment-btn');
 
             $browser1->waitForTextIn('@notifications-count', 1)
                 ->assertSeeIn('@notifications-count', 1);

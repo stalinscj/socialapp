@@ -42,7 +42,7 @@ export default {
             Echo.private(`App.Models.User.${this.currentUser.id}`)
                 .notification(notification => {
                     this.unreadCount++
-                    this.notifications.push({
+                    this.notifications.unshift({
                         id: notification.id,
                         data: {
                             link: notification.link,

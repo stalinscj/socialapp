@@ -38,7 +38,7 @@ class NewCommentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -67,5 +67,16 @@ class NewCommentNotification extends Notification
             'link'    => $this->comment->getPath(),
             'message' => "{$this->comment->user->name} comentó tu publicación",
         ];
+    }
+
+    /**
+     * Get the broadcast representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage($this->toArray($notifiable));
     }
 }
