@@ -14,22 +14,22 @@
 						
 						<div class="form-group">
 							<label for="name">Username:</label>
-							<input class="form-control border-0" type="text" name="name" placeholder="Tu nombre de usuario...">
+							<input class="form-control border-0" type="text" name="name" placeholder="Tu nombre de usuario..." value="{{ old('name') }}">
 						</div>
 						
 						<div class="form-group">
 							<label for="name">Nombre:</label>
-							<input class="form-control border-0" type="text" name="first_name" placeholder="Tu primer nombre...">
+							<input class="form-control border-0" type="text" name="first_name" placeholder="Tu primer nombre..." value="{{ old('first_name') }}">
 						</div>
 						
 						<div class="form-group">
 							<label for="name">Apellido:</label>
-							<input class="form-control border-0" type="text" name="last_name" placeholder="Tu primer apellido...">
+							<input class="form-control border-0" type="text" name="last_name" placeholder="Tu primer apellido..." value="{{ old('last_name') }}">
 						</div>
 
 						<div class="form-group">
 							<label for="email">Email:</label>
-							<input class="form-control border-0" type="email" name="email" placeholder="Tu email...">
+							<input class="form-control border-0" type="email" name="email" placeholder="Tu email..." value="{{ old('email') }}">
 						</div>
 
 						<div class="form-group">
