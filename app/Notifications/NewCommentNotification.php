@@ -8,35 +8,26 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class NewLikeNotification extends Notification
+class NewCommentNotification extends Notification
 {
     use Queueable;
 
     /**
-     * Model liked
+     * Comment created
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \App\Models\Comment
      */
-    public $model;
-
-    /**
-     * User who likes the model
-     *
-     * @var \App\Models\User
-     */
-    public $likeSender;
+    public $comment;
 
     /**
      * Create a new notification instance.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
-     * @param \App\Models\User $likeSender
+     * @param \App\Models\Comment $comment
      * @return void
      */
-    public function __construct($model, $likeSender)
+    public function __construct($comment)
     {
-        $this->model      = $model;
-        $this->likeSender = $likeSender;
+        $this->comment = $comment;
     }
 
     /**
@@ -47,7 +38,7 @@ class NewLikeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+        return ['database'];
     }
 
     /**
@@ -73,19 +64,8 @@ class NewLikeNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'link'    => $this->model->getPath(),
-            'message' => "A {$this->likeSender->name} le gustó tu publicación",
+            'link'    => $this->comment->getPath(),
+            'message' => "{$this->comment->user->name} comentó tu publicación",
         ];
-    }
-
-    /**
-     * Get the broadcast representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage($this->toArray($notifiable));
     }
 }

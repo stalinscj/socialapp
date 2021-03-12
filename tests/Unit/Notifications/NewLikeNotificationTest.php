@@ -15,7 +15,7 @@ class NewLikeNotificationTest extends TestCase
     /**
      * @test
      */
-    public function the_notification_is_stored_in_the_database()
+    public function the_new_like_notification_is_stored_in_the_database()
     {
         $status = Status::factory()->create();
 
@@ -28,6 +28,6 @@ class NewLikeNotificationTest extends TestCase
         $notificationData = $status->user->notifications->first()->data;
 
         $this->assertEquals($status->getPath(), $notificationData['link']);
-        $this->assertEquals("Al usuario {$like->user->name} le gustó tu publicación", $notificationData['message']);
+        $this->assertEquals("A {$like->user->name} le gustó tu publicación", $notificationData['message']);
     }
 }
