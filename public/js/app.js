@@ -45806,8 +45806,7 @@ var render = function() {
                   required: "",
                   name: "comment",
                   rows: "1",
-                  placeholder: "Escribe un comentario...",
-                  minlength: "5"
+                  placeholder: "Escribe un comentario..."
                 },
                 domProps: { value: _vm.newComment },
                 on: {

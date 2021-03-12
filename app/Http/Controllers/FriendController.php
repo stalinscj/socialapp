@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friendship;
 
 class FriendController extends Controller
 {
@@ -14,7 +15,9 @@ class FriendController extends Controller
     {
         $friends = request()->user()->friends()->get();
 
-        return view('friends.index', compact('friends'));
+        $friendshipStatus = Friendship::STATUS_ACCEPTED;
+
+        return view('friends.index', compact('friends', 'friendshipStatus'));
     }
 
 }

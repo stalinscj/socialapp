@@ -127,8 +127,7 @@ class User extends Authenticatable
      */
     public function friends()
     {
-        $friends = User::select('*')
-            ->selectRaw("'ACCEPTED' AS friendship_status")
+        $friends = User::query()
             ->whereIn('id', 
                 $this->friendshipRequestsSent()
                     ->select('recipient_id')
