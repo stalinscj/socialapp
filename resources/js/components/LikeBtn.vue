@@ -26,11 +26,7 @@ export default {
             axios[method](this.url)
                 .then(response => {
                     this.model.is_liked = !this.model.is_liked
-                    if (method=='post') {
-                        this.model.likes_count++
-                    } else {
-                        this.model.likes_count--
-                    }
+                    this.model.likes_count = response.data.likes_count
                 })
                 .catch(err => { 
                     console.log(err.response.data)

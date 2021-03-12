@@ -27,11 +27,11 @@ export default {
     },
     mounted() {
         EventBus.$on(`statuses.${this.statusId}.comments`, comment => {
-            this.comments.push(comment)
+            this.comments.push( { ...comment, ...{likes_count: 0} } )
         });
 
         Echo.channel(`statuses.${this.statusId}.comments`).listen('CommentCreatedEvent', ({comment}) => {
-            this.comments.push(comment)
+            this.comments.push( { ...comment, ...{likes_count: 0} } )
         })
     },
 }

@@ -15,6 +15,8 @@ class CommentLikeController extends Controller
     public function store(Comment $comment)
     {
         $comment->like(auth()->user());
+
+        return response()->json(['likes_count' => $comment->likesCount()]);
     }
 
     /**
@@ -26,5 +28,7 @@ class CommentLikeController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->unlike(auth()->user());
+
+        return response()->json(['likes_count' => $comment->likesCount()]);
     }
 }

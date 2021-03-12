@@ -27,7 +27,10 @@ class SendNewCommentNotificationListener
      */
     public function handle(CommentCreatedEvent $event)
     {
-        $event->comment->status->user
-            ->notify(new NewCommentNotification($event->comment));
+        $notifiable = $event->comment->status->user;
+        
+        if ($notifiable->isNot($event->comment->user)) {
+            $notifiable->notify(new NewCommentNotification($event->comment));
+        }
     }
 }

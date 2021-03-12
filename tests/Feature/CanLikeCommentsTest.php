@@ -36,13 +36,17 @@ class CanLikeCommentsTest extends TestCase
 
         $this->assertCount(0, $comment->likes);
 
-        $this->postJson(route('comments.likes.store', $comment));
+        $response = $this->postJson(route('comments.likes.store', $comment));
+
+        $response->assertJsonFragment(['likes_count' => 1]);
 
         $this->assertCount(1, $comment->fresh()->likes);
 
         $this->assertDatabaseHas('likes', ['user_id' => $user->id]);
         
-        $this->deleteJson(route('comments.likes.destroy', $comment));
+        $response = $this->deleteJson(route('comments.likes.destroy', $comment));
+
+        $response->assertJsonFragment(['likes_count' => 0]);
         
         $this->assertCount(0, $comment->fresh()->likes);
         

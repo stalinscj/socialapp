@@ -28,7 +28,10 @@ class SendNewLikeNotificationListener
      */
     public function handle(ModelLikedEvent $event)
     {
-        $event->model->user
-            ->notify(new NewLikeNotification($event->model, $event->likeSender));
+        $notifiable = $event->model->user;
+
+        if ($notifiable->isNot($event->likeSender)) {
+            $notifiable->notify(new NewLikeNotification($event->model, $event->likeSender));
+        }
     }
 }

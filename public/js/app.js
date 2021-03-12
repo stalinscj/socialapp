@@ -2003,6 +2003,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _CommentListItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommentListItem */ "./resources/js/components/CommentListItem.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2031,12 +2037,16 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     EventBus.$on("statuses.".concat(this.statusId, ".comments"), function (comment) {
-      _this.comments.push(comment);
+      _this.comments.push(_objectSpread(_objectSpread({}, comment), {
+        likes_count: 0
+      }));
     });
     Echo.channel("statuses.".concat(this.statusId, ".comments")).listen('CommentCreatedEvent', function (_ref) {
       var comment = _ref.comment;
 
-      _this.comments.push(comment);
+      _this.comments.push(_objectSpread(_objectSpread({}, comment), {
+        likes_count: 0
+      }));
     });
   }
 });
@@ -2220,12 +2230,7 @@ __webpack_require__.r(__webpack_exports__);
       var method = this.model.is_liked ? 'delete' : 'post';
       axios[method](this.url).then(function (response) {
         _this.model.is_liked = !_this.model.is_liked;
-
-        if (method == 'post') {
-          _this.model.likes_count++;
-        } else {
-          _this.model.likes_count--;
-        }
+        _this.model.likes_count = response.data.likes_count;
       })["catch"](function (err) {
         console.log(err.response.data);
       });
@@ -2467,6 +2472,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2496,12 +2507,16 @@ __webpack_require__.r(__webpack_exports__);
       console.log(err.response.data);
     });
     EventBus.$on('status-created', function (status) {
-      _this.statuses.unshift(status);
+      _this.statuses.unshift(_objectSpread(_objectSpread({}, status), {
+        likes_count: 0
+      }));
     });
     Echo.channel('statuses').listen('StatusCreatedEvent', function (_ref) {
       var status = _ref.status;
 
-      _this.statuses.unshift(status);
+      _this.statuses.unshift(_objectSpread(_objectSpread({}, status), {
+        likes_count: 0
+      }));
     });
   }
 });
@@ -45791,7 +45806,8 @@ var render = function() {
                   required: "",
                   name: "comment",
                   rows: "1",
-                  placeholder: "Escribe un comentario..."
+                  placeholder: "Escribe un comentario...",
+                  minlength: "5"
                 },
                 domProps: { value: _vm.newComment },
                 on: {

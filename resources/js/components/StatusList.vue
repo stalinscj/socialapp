@@ -30,11 +30,11 @@ export default {
             });
 
         EventBus.$on('status-created', status => {
-            this.statuses.unshift(status)
+            this.statuses.unshift( { ...status, ...{likes_count: 0} } )
         });
 
         Echo.channel('statuses').listen('StatusCreatedEvent', ({status}) => {
-            this.statuses.unshift(status)
+            this.statuses.unshift( { ...status, ...{likes_count: 0} } )
         })
     },
 }

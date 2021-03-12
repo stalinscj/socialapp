@@ -15,6 +15,8 @@ class StatusLikeController extends Controller
     public function store(Status $status)
     {
         $status->like(auth()->user());
+
+        return response()->json(['likes_count' => $status->likesCount()]);
     }
 
     /**
@@ -26,5 +28,7 @@ class StatusLikeController extends Controller
     public function destroy(Status $status)
     {
         $status->unlike(auth()->user());
+
+        return response()->json(['likes_count' => $status->likesCount()]);
     }
 }
