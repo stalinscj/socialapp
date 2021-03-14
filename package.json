@@ -7,9 +7,12 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "heroku-prebuild": "npm install -f",
+        "heroku-postbuild": "npm run prod"
     },
     "devDependencies": {
+        "@sweetalert2/theme-bootstrap-4": "^4.0.3",
         "axios": "^0.21",
         "bootstrap": "^4.0.0",
         "browser-sync": "^2.26.14",
@@ -24,12 +27,9 @@
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
+        "sweetalert2": "^10.15.5",
         "vue": "^2.5.17",
         "vue-loader": "^15.9.6",
         "vue-template-compiler": "^2.6.10"
-    },
-    "dependencies": {
-        "@sweetalert2/theme-bootstrap-4": "^4.0.3",
-        "sweetalert2": "^10.15.5"
     }
 }
