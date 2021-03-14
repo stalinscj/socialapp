@@ -20,6 +20,8 @@ class UserResourceTest extends TestCase
 
         $userResource = UserResource::make($user)->resolve();
 
+        $this->assertEquals($user->id, $userResource['id']);
+        
         $this->assertEquals($user->name, $userResource['name']);
         
         $this->assertEquals($user->link(), $userResource['link']);

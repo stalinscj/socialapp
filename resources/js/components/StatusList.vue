@@ -18,7 +18,10 @@ export default {
         url: {
             type: String,
             required: true
-        }
+        },
+        ownerId: {
+            type: Number,
+        },
     },
     data() {
         return {
@@ -35,11 +38,15 @@ export default {
             });
 
         EventBus.$on('status-created', status => {
-            this.statuses.unshift( { ...status, ...{likes_count: 0} } )
+            if (!this.ownerId || (this.ownerId == status.user.id)) {
+                this.statuses.unshift( { ...status, ...{likes_count: 0} } )
+            }
         });
 
         Echo.channel('statuses').listen('StatusCreatedEvent', ({status}) => {
-            this.statuses.unshift( { ...status, ...{likes_count: 0} } )
+            if (!this.ownerId || (this.ownerId == status.user.id)) {
+                this.statuses.unshift( { ...status, ...{likes_count: 0} } )
+            }
         })
     },
 }

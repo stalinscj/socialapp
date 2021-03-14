@@ -14,7 +14,7 @@
                 <div class="card border-0 bg-light shadow-sm">
                     <div class="card-body">
                         
-                        <status-list url="{{ route('users.statuses.index', $user) }}" ></status-list>
+                        <status-list url="{{ route('users.statuses.index', $user) }}" :owner-id="{{$user->id }}"></status-list>
 
                     </div>
                 </div>
