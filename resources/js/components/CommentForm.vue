@@ -33,6 +33,14 @@ export default {
     },
     methods: {
         addComment() {
+            if (this.body.length < 5) {
+                Swal.fire({
+                  icon: 'error',
+                  text: 'Escribe algo más largo',
+                })
+                return
+            }
+
             axios.post(`/statuses/${this.statusId}/comments`, {body: this.newComment})
                 .then(response => {
                     EventBus.$emit(`statuses.${this.statusId}.comments`, response.data.data)

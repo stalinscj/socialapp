@@ -27,6 +27,14 @@ export default {
     },
     methods: {
         submit() {
+            if (this.body.length < 5) {
+                Swal.fire({
+                  icon: 'error',
+                  text: 'Escribe algo más largo',
+                })
+                return
+            }
+
             axios.post('/statuses', {body: this.body})
                 .then(response => {
                     EventBus.$emit('status-created', response.data.data)

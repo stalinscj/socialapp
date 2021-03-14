@@ -39,3 +39,10 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
+
+
+//Including sweet alert
+import Swal from 'sweetalert2'
+window.Swal = Swal.mixin({
+    confirmButtonColor: '#5E6E9E'
+});
