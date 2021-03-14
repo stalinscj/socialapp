@@ -2,15 +2,19 @@
 
 @section('content')
 	<div class="container">
-		
-		@foreach ($friendshipRequests as $friendshipRequest)
+
+		@forelse ($friendshipRequests as $friendshipRequest)
 
 			<accept-friendship-btn
 				:sender="{{ $friendshipRequest->sender }}"
 				friendship-status="{{ $friendshipRequest->status }}"
 			></accept-friendship-btn>
-	
-		@endforeach
+
+		@empty
+			<div class="bg-light p-3 rounded mb-3 shadow-sm text-secondary">
+				No posees solicitudes de amistad.
+			</div>
+		@endforelse
 
 	</div>
 @endsection

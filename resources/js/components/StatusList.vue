@@ -1,8 +1,13 @@
 <template>
     <div @click="redirectIfGuest()">
-        <transition-group name="status-list-transition">
-            <status-list-item v-for="status in statuses" :key="status.id" :status="status"></status-list-item>
-        </transition-group>
+        <div v-if="statuses.length">
+            <transition-group name="status-list-transition">
+                <status-list-item v-for="status in statuses" :key="status.id" :status="status"></status-list-item>
+            </transition-group>
+        </div>
+        <div v-else>
+            <p class="card-text text-secondary">No hay estados para mostrar</p>
+        </div>
     </div>
 </template>
 
