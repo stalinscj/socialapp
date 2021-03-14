@@ -36,6 +36,10 @@ class StatusController extends Controller
      */
     public function show(Status $status)
     {
+        $status->load(['comments' => function ($query) {
+            $query->with('user')->withCount('likes')->addIsLiked(auth()->id());
+        }]);
+
         return view('statuses.show', ['status' => StatusResource::make($status)]);
     }
 
