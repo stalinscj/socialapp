@@ -92,7 +92,7 @@ trait HasLikes
         $likeableTable = $this->getTable();
         $likeableModel = get_class($this);
 
-        $subQuery = Like::selectRaw('CASE WHEN COUNT(1) THEN 1 ELSE 0 END')
+        $subQuery = Like::selectRaw('CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END')
             ->whereRaw("likeable_id = $likeableTable.id")
             ->where('likeable_type', $likeableModel)
             ->where('user_id', $user);
