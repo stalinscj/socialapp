@@ -21,18 +21,18 @@
 
 ## Tecnologías
 
-[Laravel 8] - Laravel is a web application framework with expressive, elegant syntax.
-[Laravel Dusk] - Laravel Dusk provides an expressive, easy-to-use browser automation and testing API.
-[MySQL] - MySQL is the world's most popular open source database.
-[PostgreSQL] - The World's Most Advanced Open Source Relational Database.
-[PHP 7.3] - PHP is a popular general-purpose scripting language that is especially suited to web development.
-[PHPUnit] - PHPUnit is a programmer-oriented testing framework for PHP.
+- [Laravel 8] - Laravel is a web application framework with expressive, elegant syntax.
+- [Laravel Dusk] - Laravel Dusk provides an expressive, easy-to-use browser automation and testing API.
+- [MySQL] - MySQL is the world's most popular open source database.
+- [PostgreSQL] - The World's Most Advanced Open Source Relational Database.
+- [PHP 7.3] - PHP is a popular general-purpose scripting language that is especially suited to web development.
+- [PHPUnit] - PHPUnit is a programmer-oriented testing framework for PHP.
 
-[Axios] - Promise based HTTP client for the browser and NodeJS.
-[Bootstrap] - The world’s most popular framework for building responsive, mobile-first sites.
-[Laravel Echo] - Laravel Echo is a JS library that makes it painless to subscribe to channels and listen for events broadcast by server-side broadcasting driver.
-[Pusher JS] - Pusher Channels is a hosted WebSockets solution for building powerful realtime interactive apps.
-[Vue] - The Progressive JavaScript Framework.
+- [Axios] - Promise based HTTP client for the browser and NodeJS.
+- [Bootstrap] - The world’s most popular framework for building responsive, mobile-first sites.
+- [Laravel Echo] - Laravel Echo is a JS library that makes it painless to subscribe to channels and listen for events broadcast by server-side broadcasting driver.
+- [Pusher JS] - Pusher Channels is a hosted WebSockets solution for building powerful realtime interactive apps.
+- [Vue] - The Progressive JavaScript Framework.
 
 
 ## Instalación
