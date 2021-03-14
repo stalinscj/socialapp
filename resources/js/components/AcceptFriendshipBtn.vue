@@ -18,13 +18,13 @@
 
         </div>
         
-        <div>
+        <div class="ml-4">
             <button v-if="localFriendshipStatus == 'PENDING'" class="btn btn-sm btn-primary" dusk="accept-friendship" @click="acceptFriendshipRequest()">
-                Aceptar solicitud
+                Aceptar
             </button>
 
-            <button v-if="localFriendshipStatus == 'PENDING'" class="btn btn-sm btn-warning" dusk="deny-friendship" @click="denyFriendshipRequest()">
-                Denegar solicitud
+            <button v-if="localFriendshipStatus == 'PENDING'" class="btn btn-sm btn-warning my-1" dusk="deny-friendship" @click="denyFriendshipRequest()">
+                Denegar
             </button>
             <button v-if="localFriendshipStatus != 'DELETED'" class="btn btn-sm btn-danger" dusk="delete-friendship" @click="deleteFriendship()">
                 Eliminar

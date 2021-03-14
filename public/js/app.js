@@ -45693,7 +45693,7 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", [
+      _c("div", { staticClass: "ml-4" }, [
         _vm.localFriendshipStatus == "PENDING"
           ? _c(
               "button",
@@ -45706,7 +45706,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n            Aceptar solicitud\n        ")]
+              [_vm._v("\n            Aceptar\n        ")]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -45714,7 +45714,7 @@ var render = function() {
           ? _c(
               "button",
               {
-                staticClass: "btn btn-sm btn-warning",
+                staticClass: "btn btn-sm btn-warning my-1",
                 attrs: { dusk: "deny-friendship" },
                 on: {
                   click: function($event) {
@@ -45722,7 +45722,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n            Denegar solicitud\n        ")]
+              [_vm._v("\n            Denegar\n        ")]
             )
           : _vm._e(),
         _vm._v(" "),
