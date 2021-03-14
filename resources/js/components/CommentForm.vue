@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         addComment() {
-            if (this.body.length < 5) {
+            if (this.newComment.length < 5) {
                 Swal.fire({
                   icon: 'error',
                   text: 'Escribe algo más largo',

@@ -72,9 +72,11 @@ class NewLikeNotification extends Notification
      */
     public function toArray($notifiable)
     {
+        $modelName = __('lang.'.class_basename($this->model));
+
         return [
             'link'    => $this->model->getPath(),
-            'message' => "A {$this->likeSender->name} le gustó tu publicación",
+            'message' => "A {$this->likeSender->name} le gustó tu $modelName",
         ];
     }
 
