@@ -39,9 +39,9 @@ class UserTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $this->assertEquals('/img/default-avatar.jpg', $user->avatar());
+        $this->assertEquals("https://avatar.oxro.io/avatar.svg?name={$user->first_name}+{$user->last_name}", $user->avatar());
 
-        $this->assertEquals('/img/default-avatar.jpg', $user->avatar);
+        $this->assertEquals("https://avatar.oxro.io/avatar.svg?name={$user->first_name}+{$user->last_name}", $user->avatar);
     }
 
     /**

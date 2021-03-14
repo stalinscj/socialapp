@@ -87,7 +87,7 @@ class User extends Authenticatable
      */
     public function avatar()
     {
-        return '/img/default-avatar.jpg';
+        return "https://avatar.oxro.io/avatar.svg?name={$this->first_name}+{$this->last_name}";
     }
 
     /**
